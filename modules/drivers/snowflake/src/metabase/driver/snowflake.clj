@@ -14,6 +14,8 @@
    [metabase.driver.sql-jdbc.execute :as sql-jdbc.execute]
    [metabase.driver.sql-jdbc.execute.legacy-impl :as sql-jdbc.legacy]
    [metabase.driver.sql-jdbc.sync :as sql-jdbc.sync]
+   [metabase.driver.sql-jdbc.sync.common :as sql-jdbc.sync.common]
+   [metabase.driver.sql-jdbc.sync.describe-table :as sql-jdbc.describe-table]
    [metabase.driver.sql.query-processor :as sql.qp]
    [metabase.driver.sql.util :as sql.u]
    [metabase.driver.sql.util.unprepare :as unprepare]
@@ -26,15 +28,12 @@
    [metabase.util :as u]
    [metabase.util.date-2 :as u.date]
    [metabase.util.honey-sql-2 :as h2x]
-   #_{:clj-kondo/ignore [:discouraged-namespace]}
-   [metabase.util.honeysql-extensions :as hx]
    [metabase.util.i18n :refer [trs tru]]
    [metabase.util.log :as log]
    [ring.util.codec :as codec])
   (:import
    (java.io File)
-   (java.nio.charset StandardCharsets)
-   (java.sql ResultSet Types)
+   (java.sql Connection DatabaseMetaData ResultSet Types)
    (java.time OffsetDateTime ZonedDateTime)))
 
 (set! *warn-on-reflection* true)
@@ -78,31 +77,37 @@
                                                           {:user (codec/url-encode user)
                                                            :private_key_file (codec/url-encode (.getCanonicalPath ^File private-key-file))})
         new-conn-uri (sql-jdbc.common/conn-str-with-additional-opts existing-conn-uri :url opts-str)]
-    (assoc details :connection-uri new-conn-uri)))
+    (-> details
+        (assoc :connection-uri new-conn-uri)
+        ;; The Snowflake driver uses the :account property, but we need to drop the region from it first
+        (assoc :account (first (str/split account #"\."))))))
 
 (defn- resolve-private-key
   "Convert the private-key secret properties into a private_key_file property in `details`.
   Setting the Snowflake driver property privatekey would be easier, but that doesn't work
   because clojure.java.jdbc (properly) converts the property values into strings while the
   Snowflake driver expects a java.security.PrivateKey instance."
-  [{:keys [user password account private-key-value private-key-path] :as details}]
-  (cond
-    password
-    details
+  [{:keys [user password account private-key-path]
+    :as   details}]
+  (let [base-details (apply dissoc details (vals (secret/get-sub-props "private-key")))]
+    (cond
+      password
+      details
 
-    private-key-path
-    (let [secret-map       (secret/db-details-prop->secret-map details "private-key")
-          private-key-file (when (some? (:value secret-map))
-                             (secret/value->file! secret-map :snowflake))]
-      (cond-> (apply dissoc details (vals (secret/get-sub-props "private-key")))
-        private-key-file (handle-conn-uri user account private-key-file)))
+      private-key-path
+      (let [secret-map       (secret/db-details-prop->secret-map details "private-key")
+            private-key-file (when (some? (:value secret-map))
+                               (secret/value->file! secret-map :snowflake))]
+        (cond-> base-details
+          private-key-file (handle-conn-uri user account private-key-file)))
 
-    private-key-value
-    (let [private-key-str  (if (bytes? private-key-value)
-                             (String. ^bytes private-key-value StandardCharsets/UTF_8)
-                             private-key-value)
-          private-key-file (secret/value->file! {:connection-property-name "private-key-file" :value private-key-str})]
-      (handle-conn-uri details user account private-key-file))))
+      :else
+      ;; get-secret-string should get the right value (using private-key-value or private-key-id) and decode it automatically
+      (let [decoded (secret/get-secret-string details "private-key")
+            file    (secret/value->file! {:connection-property-name "private-key-file"
+                                          :value                    decoded})]
+        (assoc (handle-conn-uri base-details user account file)
+               :private_key_file file)))))
 
 (defmethod sql-jdbc.conn/connection-details->spec :snowflake
   [_ {:keys [account additional-options], :as details}]
@@ -383,7 +388,7 @@
   (sql-jdbc/query driver database {:select [:*]
                                    :from   [[(qp.store/with-store
                                                (qp.store/fetch-and-store-database! (u/the-id database))
-                                               (binding [hx/*honey-sql-version* (sql.qp/honey-sql-version driver)]
+                                               (sql.qp/with-driver-honey-sql-version driver
                                                  (sql.qp/->honeysql driver table)))]]}))
 
 (defmethod driver/describe-database :snowflake [driver database]
@@ -423,9 +428,59 @@
            ;; find PKs and mark them
            (sql-jdbc.sync/add-table-pks driver conn (db-name database))))))
 
+(defn- escape-name-for-metadata [entity-name]
+  (when entity-name
+    (str/replace entity-name "_" "\\_")))
+
+(defmethod driver/escape-entity-name-for-metadata :snowflake
+  [_ entity-name]
+  (escape-name-for-metadata entity-name))
+
+;; The Snowflake JDBC driver is buggy: schema and table name are interpreted as patterns
+;; in getPrimaryKeys and getImportedKeys calls. When this bug gets fixed, the
+;; [[sql-jdbc.describe-table/get-table-pks]] method and the [[describe-table-fks*]] and
+;; [[describe-table-fks]] functions can be dropped and the call to [[describe-table-fks]]
+;; can be replaced with a call to [[sql-jdbc.sync/describe-table-fks]]. See #26054 for
+;; more context.
+(defmethod sql-jdbc.describe-table/get-table-pks :snowflake
+  [_driver ^Connection conn db-name-or-nil table]
+  (let [^DatabaseMetaData metadata (.getMetaData conn)]
+    (into #{} (sql-jdbc.sync.common/reducible-results
+               #(.getPrimaryKeys metadata db-name-or-nil
+                                 (-> table :schema escape-name-for-metadata)
+                                 (-> table :name escape-name-for-metadata))
+               (fn [^ResultSet rs] #(.getString rs "COLUMN_NAME"))))))
+
+(defn- describe-table-fks*
+  "Stolen from [[sql-jdbc.describe-table]].
+  The only change is that it escapes `schema` and `table-name`."
+  [_driver ^Connection conn {^String schema :schema, ^String table-name :name} & [^String db-name-or-nil]]
+  ;; Snowflake bug: schema and table name are interpreted as patterns
+  (let [schema (escape-name-for-metadata schema)
+        table-name (escape-name-for-metadata table-name)]
+    (into
+     #{}
+     (sql-jdbc.sync.common/reducible-results #(.getImportedKeys (.getMetaData conn) db-name-or-nil schema table-name)
+                                             (fn [^ResultSet rs]
+                                               (fn []
+                                                 {:fk-column-name   (.getString rs "FKCOLUMN_NAME")
+                                                  :dest-table       {:name   (.getString rs "PKTABLE_NAME")
+                                                                     :schema (.getString rs "PKTABLE_SCHEM")}
+                                                  :dest-column-name (.getString rs "PKCOLUMN_NAME")}))))))
+
+(defn- describe-table-fks
+  "Stolen from [[sql-jdbc.describe-table]].
+  The only change is that it calls the stolen function [[describe-table-fks*]]."
+  [driver db-or-id-or-spec-or-conn table & [db-name-or-nil]]
+  (if (instance? Connection db-or-id-or-spec-or-conn)
+    (describe-table-fks* driver db-or-id-or-spec-or-conn table db-name-or-nil)
+    (let [spec (sql-jdbc.conn/db->pooled-connection-spec db-or-id-or-spec-or-conn)]
+      (with-open [conn (jdbc/get-connection spec)]
+        (describe-table-fks* driver conn table db-name-or-nil)))))
+
 (defmethod driver/describe-table-fks :snowflake
   [driver database table]
-  (sql-jdbc.sync/describe-table-fks driver database table (db-name database)))
+  (describe-table-fks driver database table (db-name database)))
 
 (defmethod sql-jdbc.execute/set-timezone-sql :snowflake [_] "ALTER SESSION SET TIMEZONE = %s;")
 

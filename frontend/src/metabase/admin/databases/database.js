@@ -137,11 +137,7 @@ export const addSampleDatabase = createThunkAction(
       try {
         dispatch.action(ADDING_SAMPLE_DATABASE);
         const sampleDatabase = await MetabaseApi.db_add_sample_database();
-        await dispatch(
-          Databases.actions.fetchList(query, {
-            reload: true,
-          }),
-        );
+        dispatch(Databases.actions.invalidateLists());
         MetabaseAnalytics.trackStructEvent("Databases", "Add Sample Data");
         return sampleDatabase;
       } catch (error) {
@@ -222,8 +218,8 @@ export const deleteDatabase = function (databaseId, isDetailView = true) {
   return async function (dispatch, getState) {
     try {
       dispatch.action(DELETE_DATABASE_STARTED, { databaseId });
-      dispatch(push("/admin/databases/"));
       await dispatch(Databases.actions.delete({ id: databaseId }));
+      dispatch(push("/admin/databases/"));
       MetabaseAnalytics.trackStructEvent(
         "Databases",
         "Delete",

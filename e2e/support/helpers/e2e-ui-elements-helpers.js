@@ -22,6 +22,10 @@ export function rightSidebar() {
   return cy.findAllByTestId("sidebar-right");
 }
 
+export function leftSidebar() {
+  return cy.findByTestId("sidebar-left");
+}
+
 export function navigationSidebar() {
   return cy.get("#root aside").first();
 }
@@ -67,9 +71,7 @@ export function filterWidget() {
 }
 
 export const openQuestionActions = () => {
-  cy.findByTestId("qb-header-action-panel").within(() => {
-    cy.icon("ellipsis").click();
-  });
+  cy.findByTestId("qb-header-action-panel").icon("ellipsis").click();
 };
 
 export const closeQuestionActions = () => {

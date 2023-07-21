@@ -36,7 +36,7 @@ export function openNativeEditor({
 
   databaseName && cy.findByText(databaseName).click();
 
-  return cy.get(".ace_content").as(alias).should("be.visible");
+  return cy.findByTestId("native-query-editor").as(alias).should("be.visible");
 }
 
 /**
@@ -124,7 +124,7 @@ export function visitQuestion(id) {
   // In case we use this function multiple times in a test, make sure aliases are unique for each question
   const alias = "cardQuery" + id;
 
-  // We need to use the wildcard becase endpoint for pivot tables has the following format: `/api/card/pivot/${id}/query`
+  // We need to use the wildcard because endpoint for pivot tables has the following format: `/api/card/pivot/${id}/query`
   cy.intercept("POST", `/api/card/**/${id}/query`).as(alias);
 
   cy.visit(`/question/${id}`);
@@ -137,7 +137,7 @@ export function visitQuestion(id) {
  *
  * @param {number} dashboard_id
  */
-export function visitDashboard(dashboard_id) {
+export function visitDashboard(dashboard_id, { params = {} } = {}) {
   // Some users will not have permissions for this request
   cy.request({
     method: "GET",
@@ -172,7 +172,10 @@ export function visitDashboard(dashboard_id) {
         },
       );
 
-      cy.visit(`/dashboard/${dashboard_id}`);
+      cy.visit({
+        url: `/dashboard/${dashboard_id}`,
+        qs: params,
+      });
 
       cy.wait(aliases);
     } else {
@@ -253,11 +256,14 @@ export function visitPublicQuestion(id) {
   );
 }
 
-export function visitPublicDashboard(id) {
+export function visitPublicDashboard(id, { params = {} } = {}) {
   cy.request("POST", `/api/dashboard/${id}/public_link`).then(
     ({ body: { uuid } }) => {
       cy.signOut();
-      cy.visit(`/public/dashboard/${uuid}`);
+      cy.visit({
+        url: `/public/dashboard/${uuid}`,
+        qs: params,
+      });
     },
   );
 }

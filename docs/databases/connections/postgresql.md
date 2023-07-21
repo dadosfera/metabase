@@ -32,7 +32,7 @@ The name of the database you're connecting to.
 
 ### Username
 
-The database username for the account that you want to use to connect to your database. You can set up multiple connections to the same database using different user accounts to connect to the same database, each with different sets of privileges.
+The database username for the account that you want to use to connect to your database. You can set up multiple connections to the same database using different user accounts to connect to the same database, each with different sets of [privileges](../users-roles-privileges.md).
 
 ### Password
 
@@ -113,13 +113,19 @@ In some databases, Metabase can unfold JSON columns into component fields to yie
 
 ### Additional JDBC connection string options
 
-You can append options to the connection string that Metabase uses to connect to your database.
+You can append options to the connection string that Metabase uses to connect to your database. Use the format:
+
+```
+options=-c%20key=value
+```
+
+PostgreSQL connection URIs expect [percent-encoding](https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding) for whitespaces and symbols.
 
 ### Re-run queries for simple explorations
 
 Turn this option **OFF** if people want to click **Run** (the play button) before applying any [Summarize](../../questions/query-builder/introduction.md#grouping-your-metrics) or filter selections.
 
-By default, Metabase will execute a query as soon as you choose an grouping option from the **Summarize** menu or a filter condition from the [drill-through menu](https://www.metabase.com/glossary/action_menu). If your database is slow, you may want to disable re-running to avoid loading data on each click.
+By default, Metabase will execute a query as soon as you choose an grouping option from the **Summarize** menu or a filter condition from the [drill-through menu](https://www.metabase.com/learn/questions/drill-through). If your database is slow, you may want to disable re-running to avoid loading data on each click.
 
 ### Choose when Metabase syncs and scans
 

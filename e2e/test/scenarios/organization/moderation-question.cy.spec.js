@@ -132,11 +132,11 @@ describeEE("scenarios > saved question moderation", () => {
       cy.findAllByText(`${adminFullName} verified this`);
 
       cy.findByPlaceholderText("Search…").type("orders{enter}");
-      cy.findByText("Orders, Count").icon("verified");
+      cy.findByText("Orders, Count").parent().icon("verified");
 
       cy.visit("/collection/root");
 
-      cy.findByText("Orders, Count").icon("verified");
+      cy.findByText("Orders, Count").closest("td").icon("verified");
     });
   });
 });
@@ -147,7 +147,7 @@ function verifyQuestion() {
   openQuestionActions();
   cy.findByTextEnsureVisible("Verify this question").click();
 
-  cy.wait("@loadCard").should(({ response: { body } }) => {
+  cy.wait("@loadCard").then(({ response: { body } }) => {
     const { moderation_reviews } = body;
 
     /**
