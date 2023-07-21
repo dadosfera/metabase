@@ -2,9 +2,9 @@ import {
   restore,
   openOrdersTable,
   popover,
-  sidebar,
   summarize,
   visitDashboard,
+  rightSidebar,
 } from "e2e/support/helpers";
 
 import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
@@ -35,7 +35,7 @@ describe("scenarios > question > null", () => {
     cy.findByText("13571").click();
 
     cy.log("'No Results since at least v0.34.3");
-    cy.get("#detail-shortcut").click();
+    cy.findByTestId("detail-shortcut").click();
     cy.findByRole("dialog").within(() => {
       cy.findByText(/Discount/i);
       cy.findByText("Empty");
@@ -205,7 +205,7 @@ describe("scenarios > question > null", () => {
       openOrdersTable();
 
       summarize();
-      sidebar().within(() => {
+      rightSidebar().within(() => {
         // remove pre-selected "Count"
         cy.icon("close").click();
       });

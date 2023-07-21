@@ -66,7 +66,7 @@ You can specify additional options via a string, e.g. `UseResultsetStreaming=0;L
 
 Turn this option **OFF** if people want to click **Run** (the play button) before applying any [Summarize](../../questions/query-builder/introduction.md#grouping-your-metrics) or filter selections.
 
-By default, Metabase will execute a query as soon as you choose an grouping option from the **Summarize** menu or a filter condition from the [drill-through menu](https://www.metabase.com/glossary/action_menu). If your database is slow, you may want to disable re-running to avoid loading data on each click.
+By default, Metabase will execute a query as soon as you choose an grouping option from the **Summarize** menu or a filter condition from the [drill-through menu](https://www.metabase.com/learn/questions/drill-through). If your database is slow, you may want to disable re-running to avoid loading data on each click.
 
 ### Choose when Metabase syncs and scans
 
@@ -109,6 +109,116 @@ Options are:
 - **Custom**.
 
 If you are on a paid plan, you can also set cache duration per questions. See [Advanced caching controls](../../configuring-metabase/caching.md#advanced-caching-controls).
+
+## Example IAM Policy
+
+This policy provides read-only permissions for data in S3. You'll need to specify any S3 buckets that you want Metabase to be able to query from _as well as_ the S3 bucket provided as part of the configuration where results are written to.
+
+There may be additional permissions required for other Athena functionality, like federated queries. For details, check out the [Athena docs](https://docs.aws.amazon.com/athena/latest/ug/security-iam-athena).
+
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Athena",
+      "Effect": "Allow",
+      "Action": [
+        "athena:BatchGetNamedQuery",
+        "athena:BatchGetQueryExecution",
+        "athena:GetNamedQuery",
+        "athena:GetQueryExecution",
+        "athena:GetQueryResults",
+        "athena:GetQueryResultsStream",
+        "athena:GetWorkGroup",
+        "athena:ListDatabases",
+        "athena:ListDataCatalogs",
+        "athena:ListNamedQueries",
+        "athena:ListQueryExecutions",
+        "athena:ListTagsForResource",
+        "athena:ListWorkGroups",
+        "athena:ListTableMetadata",
+        "athena:StartQueryExecution",
+        "athena:StopQueryExecution",
+        "athena:CreatePreparedStatement",
+        "athena:DeletePreparedStatement",
+        "athena:GetPreparedStatement"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "Glue",
+      "Effect": "Allow",
+      "Action": [
+        "glue:BatchGetPartition",
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetPartition",
+        "glue:GetPartitions",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetTableVersion",
+        "glue:GetTableVersions"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "S3ReadAccess",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket", "s3:GetBucketLocation"],
+      "Resource": [
+        "arn:aws:s3:::bucket1",
+        "arn:aws:s3:::bucket1/*",
+        "arn:aws:s3:::bucket2",
+        "arn:aws:s3:::bucket2/*"
+      ]
+    },
+    {
+      "Sid": "AthenaResultsBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": ["arn:aws:s3:::bucket2", "arn:aws:s3:::bucket2/*"]
+    }
+  ]
+}
+```
+
+If Metabase also needs to create tables, you'll need additional AWS Glue permissions. The `"Resource": "*"` key-value pair gives the account Delete and Update permissions to any table:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "glue:BatchCreatePartition",
+        "glue:UpdateDatabase",
+        "glue:DeleteDatabase",
+        "glue:CreateTable",
+        "glue:CreateDatabase",
+        "glue:UpdateTable",
+        "glue:BatchDeletePartition",
+        "glue:BatchDeleteTable",
+        "glue:DeleteTable",
+        "glue:CreatePartition",
+        "glue:DeletePartition",
+        "glue:UpdatePartition"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
 
 ## Further reading
 

@@ -11,7 +11,9 @@
    [metabase.test.fixtures :as fixtures]
    [metabase.util :as u]
    [toucan.db :as db]
-   [toucan.util.test :as tt]))
+   [toucan.util.test :as tt]
+   [toucan2.core :as t2]
+   [toucan2.tools.with-temp :as t2.with-temp]))
 
 (use-fixtures :once (fixtures/initialize :db :test-users :web-server))
 
@@ -178,6 +180,8 @@
       (mt/with-temp* [Collection [collection {:name "Personal collection"}]
                       Dashboard  [dashboard {:collection_id (u/the-id collection) :name "Personal dashboard"}]]
         (create-dashboard-revision! dashboard true :crowberto)
+        ;; update so that the revision is accepted
+        (t2/update! Dashboard :id (:id dashboard) {:name "Personal dashboard edited"})
         (create-dashboard-revision! dashboard false :crowberto)
         (let [dashboard-id          (u/the-id dashboard)
               [_ {prev-rev-id :id}] (revision/revisions Dashboard dashboard-id)
@@ -187,3 +191,38 @@
           ;; with-non-admin-groups-no-root-collection-perms wrapper)
           (is (= "You don't have permissions to do that."
                  (mt/user-http-request :rasta :post "revision/revert" update-req))))))))
+
+(deftest revert-does-not-create-new-revision
+  (testing "revert a dashboard that previously added cards should not recreate duplicate revisions(#30869)"
+    (t2.with-temp/with-temp
+      [Dashboard  {dashboard-id :id
+                   :as dashboard}   {:name "A dashboard"}]
+      ;; 0. create the dashboard
+      (create-dashboard-revision! dashboard true :crowberto)
+
+      ;; 1. add 2 cards
+      (let [[dashcard-id-1] (t2/insert-returning-pks! DashboardCard [{:dashboard_id dashboard-id
+                                                                      :size_x       4
+                                                                      :size_y       4
+                                                                      :col          1
+                                                                      :row          1}
+                                                                     {:dashboard_id dashboard-id
+                                                                      :size_x       4
+                                                                      :size_y       4
+                                                                      :col          1
+                                                                      :row          1}])]
+
+        (create-dashboard-revision! dashboard false :crowberto)
+
+        ;; 2. delete 1 card
+        (t2/delete! DashboardCard :id dashcard-id-1)
+        (create-dashboard-revision! dashboard false :crowberto))
+
+      (testing "we have 3 revisions before reverting "
+        (is (= 3 (count (mt/user-http-request :crowberto :get 200 "revision" :entity "dashboard" :id dashboard-id)))))
+
+      (let [earlier-revision-id (t2/select-one-pk Revision :model "Dashboard" :model_id dashboard-id {:order-by [[:timestamp :desc]]})]
+        (revision/revert! :entity Dashboard :id dashboard-id :user-id (mt/user->id :crowberto) :revision-id earlier-revision-id))
+
+      (testing "we have 4 revisions after revert"
+        (is (= 4 (count (mt/user-http-request :crowberto :get 200 "revision" :entity "dashboard" :id dashboard-id))))))))

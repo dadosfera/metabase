@@ -988,6 +988,7 @@ class TableInteractive extends Component {
               })}
               onMouseEnter={this.handleOnMouseEnter}
               onMouseLeave={this.handleOnMouseLeave}
+              data-testid="TableInteractive-root"
             >
               <canvas
                 className="spread"
@@ -1140,7 +1141,6 @@ export default _.compose(
 
 const DetailShortcut = React.forwardRef((_props, ref) => (
   <div
-    id="detail-shortcut"
     className="TableInteractive-cellWrapper cursor-pointer"
     ref={ref}
     style={{
@@ -1151,6 +1151,7 @@ const DetailShortcut = React.forwardRef((_props, ref) => (
       width: SIDEBAR_WIDTH,
       zIndex: 3,
     }}
+    data-testid="detail-shortcut"
   >
     <Tooltip tooltip={t`View Details`}>
       <Button

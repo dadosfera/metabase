@@ -2,6 +2,7 @@
   (:require
    [cheshire.core :as json]
    [clojure.test :refer :all]
+   [metabase.driver.util :as driver.u]
    [metabase.mbql.schema :as mbql.s]
    [metabase.models :refer [Card]]
    [metabase.query-processor :as qp]
@@ -343,13 +344,32 @@
                             :collection  "checkins"
                             :mbql?       true}
                  :database (mt/id)}]
-      (mt/with-temp Card [{card-id :id} {:dataset_query query}]
-        (is (= {:source-metadata nil
-                :source-query    {:projections ["_id" "user_id" "venue_id"],
-                                  :native      {:collection "checkins"
-                                                :query [{:$project {:_id "$_id"}}
-                                                        {:$limit 1048575}]}
-                                  :collection  "checkins"
-                                  :mbql?       true}
-                :database        (mt/id)}
-               (#'fetch-source-query/card-id->source-query-and-metadata card-id)))))))
+      (with-redefs [driver.u/database->driver (constantly :mongo)]
+        (mt/with-temp Card [{card-id :id} {:dataset_query query}]
+          (is (= {:source-metadata nil
+                  :source-query    {:projections ["_id" "user_id" "venue_id"],
+                                    :native      {:collection "checkins"
+                                                  :query [{:$project {:_id "$_id"}}
+                                                          {:$limit 1048575}]}
+                                    :collection  "checkins"
+                                    :mbql?       true}
+                  :database        (mt/id)}
+                 (#'fetch-source-query/card-id->source-query-and-metadata card-id)))))))
+  (testing "card-id->source-query-and-metadata-test should preserve mongodb native queries in string format (#30112)"
+    (let [query-str (str "[{\"$project\":\n"
+                         "   {\"_id\":\"$_id\",\n"
+                         "    \"user_id\":\"$user_id\",\n"
+                         "    \"venue_id\": \"$venue_id\"}},\n"
+                         " {\"$limit\": 1048575}]")
+          query {:type     :native
+                 :native   {:query query-str
+                            :collection  "checkins"}
+                 :database (mt/id)}]
+      (with-redefs [driver.u/database->driver (constantly :mongo)]
+        (mt/with-temp Card [{card-id :id} {:dataset_query query}]
+          (is (= {:source-metadata nil
+                  :source-query    {:native      {:collection "checkins"
+                                                  :query      query-str}
+                                    :collection  "checkins"}
+                  :database        (mt/id)}
+                 (#'fetch-source-query/card-id->source-query-and-metadata card-id))))))))

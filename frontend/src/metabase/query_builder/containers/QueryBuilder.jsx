@@ -282,7 +282,7 @@ function QueryBuilder(props) {
   );
 
   const handleSave = useCallback(
-    async (card, { rerunQuery = false } = {}) => {
+    async (card, { rerunQuery } = {}) => {
       const questionWithUpdatedCard = question.setCard(card);
       await apiUpdateQuestion(questionWithUpdatedCard, { rerunQuery });
       if (!rerunQuery) {
@@ -306,12 +306,12 @@ function QueryBuilder(props) {
 
   useMount(() => {
     initializeQB(location, params);
-  }, []);
+  });
 
-  useMount(() => {
+  useEffect(() => {
     window.addEventListener("resize", forceUpdateDebounced);
     return () => window.removeEventListener("resize", forceUpdateDebounced);
-  }, []);
+  });
 
   useUnmount(() => {
     cancelQuery();

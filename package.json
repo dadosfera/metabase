@@ -123,7 +123,7 @@
     "@deploysentinel/cypress-debugger": "^0.7.8",
     "@emotion/babel-plugin": "^11.7.2",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
-    "@percy/cli": "^1.21.0",
+    "@percy/cli": "^1.23.0",
     "@percy/cypress": "^3.1.2",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@sinonjs/fake-timers": "^9.1.2",
@@ -135,7 +135,7 @@
     "@storybook/client-api": "6.5.15",
     "@storybook/manager-webpack5": "6.5.15",
     "@storybook/react": "6.5.15",
-    "@testing-library/cypress": "^8.0.3",
+    "@testing-library/cypress": "^9.0.0",
     "@testing-library/dom": "^7.29.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.0.2",
@@ -213,8 +213,8 @@
     "cross-fetch": "^3.1.5",
     "css-loader": "1.0.1",
     "cy-verify-downloads": "^0.1.12",
-    "cypress": "^10.9.0",
-    "cypress-real-events": "^1.7.1",
+    "cypress": "^12.8.1",
+    "cypress-real-events": "^1.7.6",
     "esbuild": "^0.17.9",
     "eslint": "7.32.0",
     "eslint-import-resolver-webpack": "^0.8.3",
@@ -263,11 +263,11 @@
     "source-map-loader": "^4.0.1",
     "style-loader": "3.3.1",
     "typescript": "^4.7.2",
-    "webpack": "5.75.0",
+    "webpack": "5.76.0",
     "webpack-cli": "5.0.1",
     "webpack-dev-server": "4.11.1",
     "webpack-notifier": "1.15.0",
-    "xlsx": "0.18.3",
+    "xlsx": "^0.18.5",
     "yaml-lint": "~1.6.0"
   },
   "resolutions": {
@@ -350,6 +350,10 @@
       "eslint --rulesdir frontend/lint/eslint-rules --max-warnings 0",
       "prettier --write",
       "node ./bin/verify-doc-links"
+    ],
+    "e2e/**/*.{js,jsx,ts,jsx}": [
+      "eslint --rulesdir frontend/lint/eslint-rules --max-warnings 0",
+      "prettier --write"
     ],
     "e2e/test/scenarios/*/{*.js,!(helpers|shared)/*.js}": [
       "node e2e/validate-e2e-test-files.js"

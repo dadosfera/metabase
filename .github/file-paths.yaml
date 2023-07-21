@@ -6,15 +6,15 @@ ci: &ci
   - ".github/**/!(*.md)"
 
 shared_sources: &shared_sources
-  - "shared/src"
+  - "shared/src/**"
 
 shared_specs: &shared_specs
-  - "shared/test"
+  - "shared/test/**"
 
 frontend_sources: &frontend_sources
   - *shared_sources
-  - "enterprise/frontend/**"
-  - "frontend/!(test)/**"
+  - "enterprise/frontend/!(test)**/**/{!(*.spec),}.{js,jsx,ts,tsx,css}"
+  - "frontend/!(test)**/**/{!(*.spec),}.{js,jsx,ts,tsx,css}"
   - "yarn.lock"
   - "**/tsconfig*.json"
   - "package.json"

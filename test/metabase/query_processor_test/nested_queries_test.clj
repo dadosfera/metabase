@@ -98,6 +98,20 @@
                     :aggregation  [:count]
                     :breakout     [$price]}))))))))
 
+(deftest mbql-source-query-aggregation-order-by-test
+  (mt/test-drivers (mt/normal-drivers-with-feature :nested-queries)
+    (testing "Source query with aggregation and order by produces expected results (#30874)."
+      (is (= [[50 10] [7 10] [40 9]]
+             (mt/formatted-rows [int int]
+               (mt/run-mbql-query venues
+                 {:source-query {:source-table $$venues
+                                 :aggregation  [:count]
+                                 :breakout     [$category_id]
+                                 :order-by     [[:desc [:aggregation 0]]]}
+                  :order-by [[:desc *count/Integer]
+                             [:desc $category_id]]
+                  :limit 3})))))))
+
 (deftest breakout-fk-column-test
   (mt/test-drivers (mt/normal-drivers-with-feature :nested-queries :foreign-keys)
     (testing "Test including a breakout of a nested query column that follows an FK"
@@ -774,7 +788,8 @@
 
 (deftest two-of-the-same-aggregations-test
   ;; TODO make this work for other drivers supporting :nested-queries
-  (mt/test-drivers (disj (mt/normal-drivers-with-feature :nested-queries) :vertica :sqlite :presto-jdbc)
+  (mt/test-drivers (disj (mt/normal-drivers-with-feature :nested-queries)
+                         :vertica :sqlite :presto-jdbc :starburst)
     (testing "Do nested queries work with two of the same aggregation? (#9767)"
       (is (= [["2014-02-01T00:00:00Z" 302 1804]
               ["2014-03-01T00:00:00Z" 350 2362]]
