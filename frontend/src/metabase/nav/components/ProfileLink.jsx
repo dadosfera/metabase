@@ -58,7 +58,6 @@ function ProfileLink({ user, adminItems, onLogout }) {
         link: "/admin",
         event: `Navbar;Profile Dropdown;Enter Admin`,
       },
-      /*
       {
         title: t`Help`,
         icon: null,
