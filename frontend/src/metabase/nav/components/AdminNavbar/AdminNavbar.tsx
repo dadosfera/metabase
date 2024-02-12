@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { t } from "ttag";
 import { useSelector } from "metabase/lib/redux";
@@ -18,6 +19,7 @@ import {
   AdminMobileNavbar,
   AdminMobileNavBarItems,
   MobileHide,
+  FlexColumnContainer,
 } from "./AdminNavbar.styled";
 import { AdminNavItem } from "./AdminNavItem";
 
@@ -32,21 +34,27 @@ export const AdminNavbar = ({
   adminPaths,
 }: AdminNavbarProps) => {
   const isPaidPlain = useSelector(getIsPaidPlan);
+  const adminPathsFiltered = adminPaths.filter(
+    path => path.key !== "troubleshooting" && path.key !== "permissions",
+  );
 
   return (
     <AdminNavbarRoot className="Nav" aria-label={t`Navigation bar`}>
       <AdminLogoLink to="/admin" data-metabase-event="Navbar;Logo">
         <AdminLogoContainer>
           <LogoIcon className="text-brand my2" dark />
-          <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
+          <FlexColumnContainer>
+            <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
+            <AdminLogoText>Accelerated By Dadosfera</AdminLogoText>
+          </FlexColumnContainer>
         </AdminLogoContainer>
       </AdminLogoLink>
 
-      <MobileNavbar adminPaths={adminPaths} currentPath={currentPath} />
+      <MobileNavbar adminPaths={adminPathsFiltered} currentPath={currentPath} />
 
       <MobileHide>
         <AdminNavbarItems>
-          {adminPaths.map(({ name, key, path }) => (
+          {adminPathsFiltered.map(({ name, key, path }) => (
             <AdminNavItem
               name={name}
               path={path}
@@ -56,7 +64,8 @@ export const AdminNavbar = ({
           ))}
         </AdminNavbarItems>
 
-        {!isPaidPlain && <StoreLink />}
+        {/* {!isPaidPlain && <StoreLink />} */}
+
         <AdminExitLink
           to="/"
           data-metabase-event="Navbar;Exit Admin"

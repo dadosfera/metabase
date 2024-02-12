@@ -1,6 +1,11 @@
 import LogoIcon from "metabase/components/LogoIcon";
 import AppBarToggle from "./AppBarToggle";
-import { LogoLink, LogoRoot, ToggleContainer } from "./AppBarLogo.styled";
+import {
+  DadosferaLogo,
+  LogoLink,
+  LogoRoot,
+  ToggleContainer,
+} from "./AppBarLogo.styled";
 
 export interface AppBarLogoProps {
   isSmallAppBar?: boolean;
@@ -29,6 +34,10 @@ const AppBarLogo = ({
           data-metabase-event="Navbar;Logo"
         >
           <LogoIcon height={32} />
+          <DadosferaLogo>
+            <span>Accelerated By</span>
+            <img src="app/img/ddf-d.svg"></img>
+          </DadosferaLogo>
         </LogoLink>
       )}
       {isNavBarEnabled && (
