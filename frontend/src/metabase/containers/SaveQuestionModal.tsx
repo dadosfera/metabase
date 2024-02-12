@@ -14,6 +14,7 @@ import FormErrorMessage from "metabase/core/components/FormErrorMessage";
 import Button from "metabase/core/components/Button";
 import FormSubmitButton from "metabase/core/components/FormSubmitButton";
 import FormRadio from "metabase/core/components/FormRadio";
+import { mixpanel } from "metabase/plugins/mixpanel";
 
 import { useCollectionListQuery } from "metabase/common/hooks";
 
@@ -191,6 +192,10 @@ export const SaveQuestionModal = ({
     questionType === "question"
       ? t`What is the name of your question?`
       : t`What is the name of your model?`;
+
+  if (initialValues.saveType === "overwrite") {
+    mixpanel.trackEvent(mixpanel.events.card_save);
+  }
   return (
     <CreateCollectionOnTheGo>
       {({ resumedValues }) => (

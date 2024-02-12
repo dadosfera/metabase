@@ -9,7 +9,7 @@ import {
 } from "metabase/lib/formatting";
 import { color } from "metabase/lib/colors";
 
-import Tooltip from "metabase/core/components/Tooltip";
+import { Tooltip } from "metabase/ui/components/overlays/Tooltip";
 import { Ellipsified } from "metabase/core/components/Ellipsified";
 
 import { columnSettings } from "metabase/visualizations/lib/settings/column";
