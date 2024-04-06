@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { t } from "ttag";
 import * as Yup from "yup";
-
+import { mixpanel } from "metabase/plugins/mixpanel";
 import FormCollectionPicker from "metabase/collections/containers/FormCollectionPicker/FormCollectionPicker";
 import {
   canonicalCollectionId,
@@ -189,6 +189,10 @@ export const SaveQuestionModal = ({
     questionType === "question"
       ? t`What is the name of your question?`
       : t`What is the name of your model?`;
+
+  if (initialValues.saveType === "overwrite") {
+    mixpanel.trackEvent(mixpanel.events.card_save);
+  }
   return (
     <CreateCollectionOnTheGo>
       {({ resumedValues }) => (

@@ -64,6 +64,13 @@ function ProfileLink({ user, adminItems, onLogout }) {
         event: `Navbar;Profile Dropdown;Enter Admin`,
       },
       {
+        title: t`Activity`,
+        icon: null,
+        link: "/activity",
+        event: `Navbar;Profile Dropdown;Activity ${tag}`,
+      },
+      /*
+      {
         title: t`Help`,
         icon: null,
         link:
@@ -80,6 +87,7 @@ function ProfileLink({ user, adminItems, onLogout }) {
         action: () => openModal("about"),
         event: `Navbar;Profile Dropdown;About ${tag}`,
       },
+      */
       {
         title: t`Sign out`,
         icon: null,

@@ -38,6 +38,7 @@ import { getIsNavbarOpen } from "metabase/selectors/app";
 import { getSetting } from "metabase/selectors/settings";
 import { saveDashboardPdf } from "metabase/visualizations/lib/save-dashboard-pdf";
 
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { SIDEBAR_NAME } from "../../constants";
 
 import {
@@ -214,6 +215,7 @@ class DashboardHeaderContainer extends Component {
     // clicking on them wouldn't do anything at this moment anyway
     this.props.dismissAllUndo();
     await this.props.updateDashboardAndCards();
+    mixpanel.trackEvent(mixpanel.events.dashboard_save);
     this.onDoneEditing();
   }
 

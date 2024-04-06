@@ -36,6 +36,7 @@ function CreateDashboardModal({
 }: Props) {
   const handleCreate = useCallback(
     (dashboard: Dashboard) => {
+      mixpanel.trackEvent(mixpanel.events.create_dashboard);
       if (typeof onCreate === "function") {
         onCreate(dashboard);
       } else {
