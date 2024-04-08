@@ -1,3 +1,10 @@
+import { SAMPLE_DB_ID } from "e2e/support/cypress_data";
+import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
+import {
+  ORDERS_QUESTION_ID,
+  ORDERS_DASHBOARD_ID,
+  ADMIN_PERSONAL_COLLECTION_ID,
+} from "e2e/support/cypress_sample_instance_data";
 import {
   appBar,
   collectionTable,
@@ -22,13 +29,6 @@ import {
   saveDashboard,
   filterWidget,
 } from "e2e/support/helpers";
-import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
-import {
-  ORDERS_QUESTION_ID,
-  ORDERS_DASHBOARD_ID,
-  ADMIN_PERSONAL_COLLECTION_ID,
-} from "e2e/support/cypress_sample_instance_data";
-import { SAMPLE_DB_ID } from "e2e/support/cypress_data";
 
 const { ORDERS_ID } = SAMPLE_DATABASE;
 const PG_DB_ID = 2;
@@ -87,7 +87,7 @@ describe("scenarios > dashboard > dashboard back navigation", () => {
 
   it("should expand the native editor when editing a question from a dashboard", () => {
     createDashboardWithNativeCard();
-    cy.get("@dashboardId").then(visitDashboard);
+    visitDashboard("@dashboardId");
     getDashboardCard().realHover();
     getDashboardCardMenu().click();
     popover().findByText("Edit question").click();
@@ -150,7 +150,7 @@ describe("scenarios > dashboard > dashboard back navigation", () => {
 
   it("should preserve query results when navigating between the dashboard and the query builder", () => {
     createDashboardWithCards();
-    cy.get("@dashboardId").then(visitDashboard);
+    visitDashboard("@dashboardId");
     cy.wait("@dashboard");
     cy.wait("@dashcardQuery");
 
@@ -225,7 +225,7 @@ describe("scenarios > dashboard > dashboard back navigation", () => {
   it("should navigate back to a dashboard with permission errors", () => {
     createDashboardWithPermissionError();
     cy.signInAsNormalUser();
-    cy.get("@dashboardId").then(visitDashboard);
+    visitDashboard("@dashboardId");
     cy.wait("@dashboard");
     cy.wait("@dashcardQuery");
 

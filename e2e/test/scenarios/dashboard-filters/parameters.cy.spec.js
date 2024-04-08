@@ -1,3 +1,10 @@
+import { SAMPLE_DB_ID } from "e2e/support/cypress_data";
+import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
+import {
+  ORDERS_DASHBOARD_ID,
+  ORDERS_COUNT_QUESTION_ID,
+  ORDERS_BY_YEAR_QUESTION_ID,
+} from "e2e/support/cypress_sample_instance_data";
 import {
   popover,
   restore,
@@ -19,13 +26,6 @@ import {
   dashboardParametersContainer,
   openQuestionActions,
 } from "e2e/support/helpers";
-import {
-  ORDERS_DASHBOARD_ID,
-  ORDERS_COUNT_QUESTION_ID,
-  ORDERS_BY_YEAR_QUESTION_ID,
-} from "e2e/support/cypress_sample_instance_data";
-import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
-import { SAMPLE_DB_ID } from "e2e/support/cypress_data";
 
 const { ORDERS_ID, ORDERS, PRODUCTS, PRODUCTS_ID, REVIEWS_ID } =
   SAMPLE_DATABASE;
@@ -1081,9 +1081,7 @@ describe("scenarios > dashboard > parameters", () => {
       });
 
       it("should autowire and filter cards with foreign keys when added to the dashboard via the sidebar", () => {
-        cy.get("@dashboardId").then(dashboardId => {
-          visitDashboard(dashboardId);
-        });
+        visitDashboard("@dashboardId");
         editDashboard();
         setFilter("ID");
         selectDashboardFilter(getDashboardCard(0), "ID");
@@ -1123,10 +1121,7 @@ describe("scenarios > dashboard > parameters", () => {
       });
 
       it("should autowire and filter cards with foreign keys when added to the dashboard via the query builder", () => {
-        cy.get("@dashboardId").then(dashboardId => {
-          visitDashboard(dashboardId);
-        });
-
+        visitDashboard("@dashboardId");
         editDashboard();
         setFilter("ID");
         selectDashboardFilter(getDashboardCard(0), "ID");

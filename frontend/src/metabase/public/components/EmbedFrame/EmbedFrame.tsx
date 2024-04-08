@@ -1,21 +1,20 @@
-import { useState } from "react";
-import type * as React from "react";
-import { withRouter } from "react-router";
-import { connect } from "react-redux";
 import cx from "classnames";
-import _ from "underscore";
 import type { Location } from "history";
-
+import type * as React from "react";
+import { useState } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
 import { useMount } from "react-use";
+import _ from "underscore";
+
 import TitleAndDescription from "metabase/components/TitleAndDescription";
-
-import { getSetting } from "metabase/selectors/settings";
-import { isWithinIframe, initializeIframeResizer } from "metabase/lib/dom";
 import { parseHashOptions } from "metabase/lib/browser";
-
-import SyncedParametersList from "metabase/parameters/components/SyncedParametersList/SyncedParametersList";
+import { isWithinIframe, initializeIframeResizer } from "metabase/lib/dom";
 import { FilterApplyButton } from "metabase/parameters/components/FilterApplyButton";
-
+import SyncedParametersList from "metabase/parameters/components/SyncedParametersList/SyncedParametersList";
+import { getSetting } from "metabase/selectors/settings";
+import type Question from "metabase-lib/Question";
+import { getValuePopulatedParameters } from "metabase-lib/parameters/utils/parameter-values";
 import type {
   Dashboard,
   Parameter,
@@ -23,12 +22,7 @@ import type {
   ParameterValueOrArray,
 } from "metabase-types/api";
 import type { State } from "metabase-types/store";
-
 import ExternalLink from "metabase/core/components/ExternalLink";
-import type Question from "metabase-lib/Question";
-import { getValuePopulatedParameters } from "metabase-lib/parameters/utils/parameter-values";
-
-import LogoBadge from "./LogoBadge";
 import type { FooterVariant } from "./EmbedFrame.styled";
 import {
   Root,
@@ -39,6 +33,7 @@ import {
   Footer,
   ActionButtonsContainer,
 } from "./EmbedFrame.styled";
+import LogoBadge from "./LogoBadge";
 import "./EmbedFrame.css";
 
 type ParameterValues = Record<ParameterId, ParameterValueOrArray>;

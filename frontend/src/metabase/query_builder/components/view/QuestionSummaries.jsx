@@ -4,6 +4,7 @@ import { t } from "ttag";
 import { mixpanel } from "metabase/plugins/mixpanel";
 
 import { color } from "metabase/lib/colors";
+
 import ViewButton from "./ViewButton";
 import { HeaderButton } from "./ViewHeader.styled";
 

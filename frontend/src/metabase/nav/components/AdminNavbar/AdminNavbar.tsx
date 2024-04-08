@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { t } from "ttag";
-import { useSelector } from "metabase/lib/redux";
-import { getIsPaidPlan } from "metabase/selectors/settings";
+
 import LogoIcon from "metabase/components/LogoIcon";
 import { Icon } from "metabase/core/components/Icon";
+import { useSelector } from "metabase/lib/redux";
+import { getIsPaidPlan } from "metabase/selectors/settings";
 import { Button } from "metabase/ui";
 import type { User } from "metabase-types/api";
 import type { AdminPath } from "metabase-types/store";
+
 import StoreLink from "../StoreLink";
+
+import { AdminNavItem } from "./AdminNavItem";
 import {
   AdminExitLink,
   AdminLogoContainer,
@@ -21,7 +25,6 @@ import {
   MobileHide,
   FlexColumnContainer,
 } from "./AdminNavbar.styled";
-import { AdminNavItem } from "./AdminNavItem";
 
 interface AdminNavbarProps {
   path: string;
