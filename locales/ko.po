@@ -4502,7 +4502,7 @@ msgstr "시간 경과에 따른 데이터를 맵으로 보거나 추세나 변�
 msgid "Custom"
 msgstr "커스텀"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

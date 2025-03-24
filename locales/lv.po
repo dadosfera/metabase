@@ -4497,7 +4497,7 @@ msgstr "Skatiet datus laika gaitā kā karti vai pagriežot, lai palīdzētu izp
 msgid "Custom"
 msgstr "Pielāgots"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

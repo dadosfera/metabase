@@ -2,7 +2,7 @@ import mixpanelBrowser from "mixpanel-browser";
 mixpanelBrowser.init("af36711c4e68579fe13f8e2c0570edda");
 
 export const mixpanel = {
-  trackEvent(eventName: string, userEmail?: string) {
+  trackEvent(eventName: string, userEmail?: string, metadata?: object) {
     let email = "";
     if (userEmail) {
       email = userEmail;
@@ -11,7 +11,22 @@ export const mixpanel = {
     }
 
     this.identify(email);
-    mixpanelBrowser.track(eventName);
+    if (metadata) {
+      let customerName = '';
+      if (window) {
+        if (window.location.host.includes('dadosfera')) {
+          customerName = window.location.host
+            .replace("metabase-", "")
+            .replace(".dadosfera.ai", "");
+        } else {
+          customerName = window.location.host;
+        }
+
+      }
+      mixpanelBrowser.track(eventName, {...metadata, customerName});
+    } else {
+      mixpanelBrowser.track(eventName);
+    }
   },
   identify(email: string) {
     if (window) {
@@ -48,6 +63,7 @@ export const mixpanel = {
     xray: "metabase_xray",
     card_save: "metabase_card_save",
     dashboard_save: "metabase_dashboard_save",
+    download: "metabase_download"
   },
   localStorageKey: "metabase-user",
 };
