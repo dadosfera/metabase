@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import _ from "underscore";
 import { assoc, assocIn, chain, dissoc, getIn } from "icepick";
+import _ from "underscore";
 /* eslint-disable import/order */
 // NOTE: the order of these matters due to circular dependency issues
 import slugg from "slugg";
@@ -1090,12 +1090,13 @@ class Question {
     return question;
   }
 
-  // TODO: Fix incorrect Flow signature
-  parameters(): ParameterObject[] {
+  parameters({ collectionPreview } = {}): ParameterObject[] {
     return getCardUiParameters(
       this.card(),
       this.metadata(),
       this._parameterValues,
+      undefined,
+      collectionPreview,
     );
   }
 

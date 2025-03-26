@@ -1,19 +1,20 @@
-import type { Card, Parameter, ParameterTarget } from "metabase-types/api";
+import Question from "metabase-lib/Question";
+import type Metadata from "metabase-lib/metadata/Metadata";
 import type {
   ParameterWithTarget,
   UiParameter,
 } from "metabase-lib/parameters/types";
 import { getValuePopulatedParameters } from "metabase-lib/parameters/utils/parameter-values";
 import { getParameterTargetField } from "metabase-lib/parameters/utils/targets";
-import Question from "metabase-lib/Question";
-import type Metadata from "metabase-lib/metadata/Metadata";
 import { getParametersFromCard } from "metabase-lib/parameters/utils/template-tags";
+import type { Card, Parameter, ParameterTarget } from "metabase-types/api";
 
 export function getCardUiParameters(
   card: Card,
   metadata: Metadata,
   parameterValues: { [key: string]: any } = {},
   parameters = getParametersFromCard(card),
+  collectionPreview = false,
 ): UiParameter[] {
   if (!card) {
     return [];
@@ -21,7 +22,11 @@ export function getCardUiParameters(
 
   const valuePopulatedParameters: (Parameter[] | ParameterWithTarget[]) & {
     value?: any;
-  } = getValuePopulatedParameters(parameters, parameterValues);
+  } = getValuePopulatedParameters(
+    parameters,
+    parameterValues,
+    collectionPreview,
+  );
   const question = new Question(card, metadata);
 
   return valuePopulatedParameters.map(parameter => {

@@ -1,5 +1,5 @@
 import { createMockMetadata } from "__support__/metadata";
-
+import Question from "metabase-lib/Question";
 import {
   createMockColumn,
   createMockDatasetData,
@@ -12,7 +12,6 @@ import {
   createSampleDatabase,
   createSavedStructuredCard,
 } from "metabase-types/api/mocks/presets";
-import Question from "metabase-lib/Question";
 
 import {
   getActionItems,
@@ -49,10 +48,8 @@ const metadata = createMockMetadata({
   questions: [card],
 });
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const databaseWithEnabledActions = metadata.database(ACTIONS_ENABLED_DB_ID)!;
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const databaseWithDisabledActions = metadata.database(ACTIONS_DISABLED_DB_ID)!;
 
 const implicitCreateAction = createMockImplicitQueryAction({

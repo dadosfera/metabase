@@ -1,14 +1,14 @@
-import { Fragment } from "react";
 import PropTypes from "prop-types";
+import { Fragment } from "react";
 import { t } from "ttag";
-import { color } from "metabase/lib/colors";
 import * as Urls from "metabase/lib/urls";
 import { mixpanel } from "metabase/plugins/mixpanel";
 import { isSyncInProgress } from "metabase/lib/syncing";
-import Database from "metabase/entities/databases";
 import EntityItem from "metabase/components/EntityItem";
-import { Icon } from "metabase/core/components/Icon";
 import { Grid } from "metabase/components/Grid";
+import { Icon } from "metabase/core/components/Icon";
+import Database from "metabase/entities/databases";
+import { color } from "metabase/lib/colors";
 import {
   isVirtualCardId,
   SAVED_QUESTIONS_VIRTUAL_DB_ID,
@@ -16,6 +16,7 @@ import {
 
 import { ANALYTICS_CONTEXT } from "../../constants";
 import BrowseHeader from "../BrowseHeader";
+
 import {
   TableActionLink,
   TableCard,

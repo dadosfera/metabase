@@ -1,3 +1,4 @@
+import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
 import {
   restore,
   visitDashboard,
@@ -5,8 +6,6 @@ import {
   filterWidget,
   popover,
 } from "e2e/support/helpers";
-
-import { SAMPLE_DATABASE } from "e2e/support/cypress_sample_database";
 
 const { PRODUCTS } = SAMPLE_DATABASE;
 
@@ -91,9 +90,7 @@ describe("scenarios > public > dashboard", () => {
   });
 
   it("should allow users to create public dashboards", () => {
-    cy.get("@dashboardId").then(id => {
-      visitDashboard(id);
-    });
+    visitDashboard("@dashboardId");
 
     cy.icon("share").click();
 
