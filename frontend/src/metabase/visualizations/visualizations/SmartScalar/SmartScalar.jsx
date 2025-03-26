@@ -10,6 +10,7 @@ import {
   formatDateTimeRangeWithUnit,
   formatValue,
 } from "metabase/lib/formatting";
+
 import ScalarValue, {
   ScalarWrapper,
 } from "metabase/visualizations/components/ScalarValue";

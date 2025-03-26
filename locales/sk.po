@@ -4513,7 +4513,7 @@ msgstr "Zobrazte údaje v priebehu času, aby vám pomohli pochopiť trendy aleb
 msgid "Custom"
 msgstr "Voliteľný"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"
