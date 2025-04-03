@@ -4484,7 +4484,7 @@ msgstr "按地圖、趨勢檢視時間維度的資料，方便了解趨勢變化
 msgid "Custom"
 msgstr "自訂"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

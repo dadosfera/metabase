@@ -4489,7 +4489,7 @@ msgstr "以地图的形式查看一段时间内的数据，或以透视的方式
 msgid "Custom"
 msgstr "定制"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

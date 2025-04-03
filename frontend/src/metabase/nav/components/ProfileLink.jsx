@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { t } from "ttag";
 import _ from "underscore";

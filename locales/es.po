@@ -4507,7 +4507,7 @@ msgstr "Consulta los datos a lo largo del tiempo, como un mapa, o gírelos para 
 msgid "Custom"
 msgstr "Personalizado"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

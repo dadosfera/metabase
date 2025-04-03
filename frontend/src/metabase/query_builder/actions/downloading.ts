@@ -12,6 +12,7 @@ import type {
   Dataset,
   VisualizationSettings,
 } from "metabase-types/api";
+import { mixpanel } from "metabase/plugins/mixpanel";
 
 export interface DownloadQueryResultsOpts {
   type: string;
@@ -33,6 +34,14 @@ interface DownloadQueryResultsParams {
 
 export const downloadQueryResults =
   (opts: DownloadQueryResultsOpts) => async () => {
+    mixpanel.trackEvent(mixpanel.events.download, undefined, {
+      type: opts?.type || '',
+      token: opts?.token || '',
+      dashboardId: opts?.dashboardId || '',
+      dashcardId: opts?.dashcardId || '',
+      uuid: opts?.uuid || '',
+      params: opts?.params || ''
+    })
     if (opts.type === Urls.exportFormatPng) {
       await downloadChart(opts);
     } else {

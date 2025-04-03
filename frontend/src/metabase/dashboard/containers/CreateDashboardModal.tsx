@@ -8,6 +8,7 @@ import { mixpanel } from "metabase/plugins/mixpanel";
 import ModalContent from "metabase/components/ModalContent";
 import { CreateCollectionOnTheGo } from "metabase/containers/CreateCollectionOnTheGo";
 import * as Urls from "metabase/lib/urls";
+
 import type { Dashboard } from "metabase-types/api";
 import type { State } from "metabase-types/store";
 

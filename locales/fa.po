@@ -4512,7 +4512,7 @@ msgstr "اطلاعات را در طول زمان مشاهده کنید، به ع
 msgid "Custom"
 msgstr "سفارشی"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

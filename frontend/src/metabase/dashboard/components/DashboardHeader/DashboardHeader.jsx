@@ -5,7 +5,6 @@ import { push } from "react-router-redux";
 import { t } from "ttag";
 import _ from "underscore";
 
-import { isInstanceAnalyticsCollection } from "metabase/collections/utils";
 import ActionButton from "metabase/components/ActionButton";
 import EntityMenu from "metabase/components/EntityMenu";
 import { LeaveConfirmationModalContent } from "metabase/components/LeaveConfirmationModal";
@@ -31,6 +30,7 @@ import {
 import { hasDatabaseActionsEnabled } from "metabase/dashboard/utils";
 import Bookmark from "metabase/entities/bookmarks";
 import Collections from "metabase/entities/collections/collections";
+import { isInstanceAnalyticsCollection } from "metabase/collections/utils";
 import { fetchPulseFormInput } from "metabase/pulse/actions";
 import { getPulseFormInput } from "metabase/pulse/selectors";
 import { dismissAllUndo } from "metabase/redux/undo";

@@ -4525,7 +4525,7 @@ msgstr "查看一段时间内的数据、地图或透视数据，以帮助您了
 msgid "Custom"
 msgstr "自定义"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"

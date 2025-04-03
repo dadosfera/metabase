@@ -4500,7 +4500,7 @@ msgstr "Bekijk gegevens in de loop van de tijd of als een kaart om trends of ver
 msgid "Custom"
 msgstr "Aangepast"
 
-#: frontend/src/metabase/query_builder/actions/downloading.ts:165
+#: frontend/src/metabase/query_builder/actions/downloading.ts:174
 #: frontend/src/metabase/query_builder/components/view/QuestionDescription.jsx:61
 #: frontend/src/metabase/query_builder/components/view/ViewHeader.jsx:310
 msgid "New question"
