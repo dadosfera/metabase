@@ -1,5 +1,6 @@
 import { match } from "ts-pattern";
 
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { QuestionInfoSidebar } from "metabase/query_builder/components/view/sidebars/QuestionInfoSidebar";
 import { QuestionSettingsSidebar } from "metabase/query_builder/components/view/sidebars/QuestionSettingsSidebar";
 import { SummarizeSidebar } from "metabase/query_builder/components/view/sidebars/SummarizeSidebar";
@@ -47,6 +48,7 @@ export const StructuredQueryRightSidebar = ({
             updateQuestion(nextQuestion.setDefaultDisplay(), {
               run: true,
             });
+            mixpanel.trackEvent(mixpanel.events.summarize.done);
           }}
           onClose={onCloseSummary}
           stageIndex={-1}

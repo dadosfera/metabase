@@ -14,6 +14,7 @@ import {
   FormTextInput,
   FormTextarea,
 } from "metabase/forms";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Button, Radio, Stack, rem } from "metabase/ui";
 
 import S from "./SaveQuestionForm.module.css";
@@ -59,6 +60,10 @@ export const SaveQuestionForm = ({
 
   const showPickerInput =
     values.saveType === "create" && !targetCollection && !saveToDashboard;
+
+  if (values.saveType === "overwrite") {
+    mixpanel.trackEvent(mixpanel.events.card_save);
+  }
 
   return (
     <Form>

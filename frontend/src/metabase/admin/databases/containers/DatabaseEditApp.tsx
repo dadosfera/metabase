@@ -167,11 +167,11 @@ function DatabaseEditAppInner({
                     updateDatabase={updateDatabase}
                   />
 
-                  <DatabaseDangerZoneSection
+                  {/* <DatabaseDangerZoneSection
                     isAdmin={isAdmin}
                     database={database}
                     deleteDatabase={deleteDatabase}
-                  />
+                  /> */}
                 </Flex>
 
                 <NewDatabasePermissionsModal

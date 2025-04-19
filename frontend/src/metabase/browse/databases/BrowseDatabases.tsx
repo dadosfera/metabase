@@ -40,6 +40,7 @@ export const BrowseDatabases = () => {
   const { data, isLoading, error } = useListDatabasesQuery();
   const databases = data?.data;
 
+
   if (error) {
     return <LoadingAndErrorWrapper error />;
   }
@@ -61,15 +62,19 @@ export const BrowseDatabases = () => {
     );
   }
 
+  const filteredDatabases = databases?.filter(
+    database => database.name !== "Sample Database" && database.engine !== "h2",
+  );
+
   return (
     <BrowseContainer>
       <BrowseDataHeader />
       <BrowseMain>
         <BrowseSection>
           <SimpleGrid data-testid="database-browser" cols={3}>
-            {databases &&
-              databases.length > 0 &&
-              databases.map((database) => (
+            {filteredDatabases &&
+              filteredDatabases.length > 0 &&
+              filteredDatabases.map((database) => (
                 <Link to={Urls.browseDatabase(database)} key={database.id}>
                   <DatabaseCard
                     bg="bg-white"
@@ -83,7 +88,7 @@ export const BrowseDatabases = () => {
                 </Link>
               ))}
 
-            {isAdmin && (
+            {/* {isAdmin && (
               <Link to={newDatabase()} onClick={() => trackAddDatabaseDBList()}>
                 <DatabaseCard
                   className={cx(CS.rounded, CS.bordered, DB.addCard)}
@@ -106,7 +111,7 @@ export const BrowseDatabases = () => {
                   </div>
                 </DatabaseCard>
               </Link>
-            )}
+            )} */}
           </SimpleGrid>
         </BrowseSection>
       </BrowseMain>

@@ -65,9 +65,10 @@ export const DatabaseForm = ({
 
   const handleSubmit = useCallback(
     (values: DatabaseData) => {
-      return onSubmit?.(getSubmitValues(engine, values, isAdvanced));
+      // return onSubmit?.(getSubmitValues(engine, values, isAdvanced));
     },
-    [engine, isAdvanced, onSubmit],
+    // [engine, isAdvanced, onSubmit],
+    []
   );
 
   const handleEngineChange = useCallback(
@@ -130,7 +131,12 @@ const DatabaseFormBody = ({
   }, [dirty, setIsDirty]);
 
   const fields = useMemo(() => {
-    return engine ? getVisibleFields(engine, values, isAdvanced) : [];
+    // return engine ? getVisibleFields(engine, values, isAdvanced) : [];
+    return engine
+       ? getVisibleFields(engine, values, isAdvanced).filter(
+           m => m.type !== "section",
+         )
+       : [];
   }, [engine, values, isAdvanced]);
 
   return (

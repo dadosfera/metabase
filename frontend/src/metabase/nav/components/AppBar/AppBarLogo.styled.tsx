@@ -25,3 +25,23 @@ export const LogoLink = styled(Link, doNotForwardProps("isSmallAppBar"))<{
       margin-inline-end: 2rem;
     `}
 `;
+
+export const DadosferaLogo = styled.div`
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border-left: 1px solid #eeecec;
+  margin: 5px 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  color: #4c5773;
+
+  > span {
+    margin-top: 3px;
+  }
+
+  > img {
+    margin-left: 5px;
+    width: 20px;
+  }
+`;
