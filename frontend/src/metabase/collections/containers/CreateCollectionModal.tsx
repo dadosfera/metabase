@@ -6,6 +6,7 @@ import { t } from "ttag";
 import { useEscapeToCloseModal } from "metabase/common/hooks/use-escape-to-close-modal";
 import { connect } from "metabase/lib/redux";
 import * as Urls from "metabase/lib/urls";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Modal } from "metabase/ui";
 import type { Collection } from "metabase-types/api";
 import type { State } from "metabase-types/store";
@@ -36,6 +37,7 @@ function CreateCollectionModal({
 }: Props) {
   const handleCreate = useCallback(
     (collection: Collection) => {
+      mixpanel.trackEvent(mixpanel.events.create_collection);
       if (typeof onCreate === "function") {
         onCreate(collection);
       } else {

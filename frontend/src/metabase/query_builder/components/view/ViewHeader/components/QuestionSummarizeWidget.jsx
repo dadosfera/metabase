@@ -2,6 +2,7 @@
 import cx from "classnames";
 import { t } from "ttag";
 
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Button, Icon } from "metabase/ui";
 import * as Lib from "metabase-lib";
 
@@ -20,8 +21,10 @@ export function QuestionSummarizeWidget({
       leftSection={<Icon name="sum" />}
       onClick={async () => {
         if (isShowingSummarySidebar) {
+          mixpanel.trackEvent(mixpanel.events.summarize.close);
           onCloseSummary();
         } else {
+          mixpanel.trackEvent(mixpanel.events.summarize.open);
           onEditSummary();
         }
       }}

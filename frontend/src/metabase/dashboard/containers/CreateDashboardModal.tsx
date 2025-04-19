@@ -5,6 +5,7 @@ import { t } from "ttag";
 import { useEscapeToCloseModal } from "metabase/common/hooks/use-escape-to-close-modal";
 import { useDispatch } from "metabase/lib/redux";
 import * as Urls from "metabase/lib/urls";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Modal, type ModalProps } from "metabase/ui";
 import type { Dashboard } from "metabase-types/api";
 
@@ -27,6 +28,7 @@ export const CreateDashboardModal = ({
   const dispatch = useDispatch();
   const handleCreate = useCallback(
     (dashboard: Dashboard) => {
+      mixpanel.trackEvent(mixpanel.events.create_dashboard);
       if (typeof onCreate === "function") {
         onCreate(dashboard);
       } else {

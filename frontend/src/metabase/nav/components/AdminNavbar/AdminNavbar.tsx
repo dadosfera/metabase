@@ -25,6 +25,7 @@ import {
   AdminMobileNavbar,
   AdminNavbarItems,
   AdminNavbarRoot,
+  FlexColumnContainer,
   MobileHide,
 } from "./AdminNavbar.styled";
 
@@ -40,6 +41,11 @@ export const AdminNavbar = ({
 }: AdminNavbarProps) => {
   const isPaidPlan = useSelector(getIsPaidPlan);
 
+  const pathBlackList = ["troubleshooting", "permissions", "tools"];
+  const adminPathsFiltered = adminPaths.filter(
+    path => !pathBlackList.includes(path.key),
+  );
+
   return (
     <AdminNavbarRoot
       data-element-id="navbar-root"
@@ -48,16 +54,19 @@ export const AdminNavbar = ({
       <AdminLogoLink to="/admin">
         <AdminLogoContainer>
           <LogoIcon className={cx(CS.textBrand, CS.my2)} dark />
+          <FlexColumnContainer>
+            <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
+            <AdminLogoText>Accelerated By Dadosfera</AdminLogoText>
+          </FlexColumnContainer>
           {/* eslint-disable-next-line no-literal-metabase-strings -- Metabase settings */}
-          <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
-        </AdminLogoContainer>
+         </AdminLogoContainer>
       </AdminLogoLink>
 
-      <MobileNavbar adminPaths={adminPaths} currentPath={currentPath} />
+      <MobileNavbar adminPaths={adminPathsFiltered} currentPath={currentPath} />
 
       <MobileHide>
         <AdminNavbarItems data-testid="admin-navbar-items">
-          {adminPaths.map(({ name, key, path }) => (
+          {adminPathsFiltered.map(({ name, key, path }) => (
             <AdminNavItem
               name={name}
               path={path}
@@ -67,7 +76,7 @@ export const AdminNavbar = ({
           ))}
         </AdminNavbarItems>
 
-        {!isPaidPlan && <StoreLink />}
+        {/* {!isPaidPlan && <StoreLink />} */}
         <AdminExitLink
           to="/"
           data-testid="exit-admin"

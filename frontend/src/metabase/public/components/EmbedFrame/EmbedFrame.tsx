@@ -53,6 +53,7 @@ import {
   TitleAndDescriptionContainer,
 } from "./EmbedFrame.styled";
 import { LogoBadge } from "./LogoBadge";
+import ExternalLink from "metabase/core/components/ExternalLink";
 
 export type EmbedFrameBaseProps = Partial<{
   className: string;
@@ -260,7 +261,25 @@ export const EmbedFrame = ({
           className={EmbedFrameS.EmbedFrameFooter}
           variant={footerVariant}
         >
-          {hasEmbedBranding && <LogoBadge dark={theme === "night"} />}
+          {hasEmbedBranding && (
+             <div className="flex align-center">
+              <LogoBadge dark={theme === "night"} />
+              <ExternalLink
+                 href="https://dadosfera.ai"
+                 target="_blank"
+                 className="h4 flex text-bold align-center no-decoration"
+               >
+                 <span className="text-small">
+                   <span className="ml2 md-ml2 text-medium">
+                     / Accelerated By{" "}
+                     <span className={theme ? "text-white" : "text-brand"}>
+                       Dadosfera
+                     </span>
+                   </span>
+                 </span>
+               </ExternalLink>
+            </div>
+          )}
           {actionButtons && (
             <ActionButtonsContainer>{actionButtons}</ActionButtonsContainer>
           )}

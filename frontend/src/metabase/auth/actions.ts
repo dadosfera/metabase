@@ -60,6 +60,10 @@ export const login = createAsyncThunk(
     try {
       await SessionApi.create(data);
       await dispatch(refreshSession()).unwrap();
+      mixpanel.trackEvent(mixpanel.events.login, data.username);
+       if (window) {
+         localStorage.setItem(mixpanel.localStorageKey, data.username);
+       }
       if (!isSmallScreen()) {
         dispatch(openNavbar());
       }
@@ -112,6 +116,9 @@ export const logout = createAsyncThunk(
         }
       } else {
         await deleteSession();
+        if (window) {
+          localStorage.removeItem(mixpanel.localStorageKey);
+        }
         dispatch(clearCurrentUser());
         await dispatch(refreshLocale()).unwrap();
 

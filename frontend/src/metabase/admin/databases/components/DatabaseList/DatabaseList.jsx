@@ -58,12 +58,17 @@ export default class DatabaseList extends Component {
     } = this.props;
 
     const error = deletionError || addSampleDatabaseError;
+    const filteredDatabases =
+    databases?.filter(
+      database =>
+        database.name !== "Sample Database" && database.engine !== "h2",
+    ) || [];
 
     return (
       <>
         <div className={CS.wrapper} data-testid="database-list">
           <section className={cx(AdminS.PageHeader, CS.px2, CS.clearfix)}>
-            {isAdmin && (
+            {/* {isAdmin && (
               <Link
                 to="/admin/databases/create"
                 className={cx(
@@ -72,7 +77,7 @@ export default class DatabaseList extends Component {
                   CS.floatRight,
                 )}
               >{t`Add database`}</Link>
-            )}
+            )} */}
             <h2 className={CS.m0}>{t`Databases`}</h2>
           </section>
           {error && (
@@ -89,9 +94,9 @@ export default class DatabaseList extends Component {
                 </tr>
               </thead>
               <tbody>
-                {databases ? (
+                {filteredDatabases ? (
                   [
-                    databases.map((database) => {
+                    filteredDatabases.map((database) => {
                       const isDeleting =
                         this.props.deletes.indexOf(database.id) !== -1;
                       return (

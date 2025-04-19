@@ -290,9 +290,9 @@ export const SMTPConnectionForm = ({
           )}
         </FormProvider>
       </Stack>
-      <Box>
+      {/* <Box>
         <UpsellHosting source="settings-email-migrate_to_cloud" />
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

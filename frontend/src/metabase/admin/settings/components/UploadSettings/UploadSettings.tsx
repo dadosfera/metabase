@@ -9,7 +9,7 @@ export const UploadSettings = () => {
     <>
       <Flex justify="space-between" align="flex-start" gap="md">
         <UploadSettingsForm />
-        <UpsellUploads source="settings-uploads" />
+        {/* <UpsellUploads source="settings-uploads" /> */}
       </Flex>
       <PLUGIN_UPLOAD_MANAGEMENT.UploadManagementTable />
     </>

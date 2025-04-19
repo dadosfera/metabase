@@ -163,7 +163,7 @@ const StrategyEditorForDatabases_Base = ({
             )}
           </Panel>
         </RoundedBox>
-        <UpsellCacheConfig source="performance-data_cache" />
+        {/* <UpsellCacheConfig source="performance-data_cache" /> */}
       </Flex>
     </TabWrapper>
   );

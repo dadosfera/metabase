@@ -6,6 +6,7 @@ import api, { GET, POST } from "metabase/lib/api";
 import { isWithinIframe, openSaveDialog } from "metabase/lib/dom";
 import { checkNotNull } from "metabase/lib/types";
 import * as Urls from "metabase/lib/urls";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { saveChartImage } from "metabase/visualizations/lib/save-chart-image";
 import { getCardKey } from "metabase/visualizations/lib/utils";
 import type Question from "metabase-lib/v1/Question";
@@ -115,6 +116,15 @@ export const downloadQueryResults = createAsyncThunk(
       accessedVia,
       exportType: opts.type,
     });
+
+    mixpanel.trackEvent(mixpanel.events.download, undefined, {
+      type: opts?.type || '',
+      token: opts?.token || '',
+      dashboardId: opts?.dashboardId || '',
+      dashcardId: opts?.dashcardId || '',
+      uuid: opts?.uuid || '',
+      params: opts?.params || ''
+    })
 
     if (opts.type === Urls.exportFormatPng) {
       downloadChart(opts);

@@ -19,6 +19,7 @@ import { useForceUpdate } from "metabase/hooks/use-force-update";
 import { useLoadingTimer } from "metabase/hooks/use-loading-timer";
 import { useWebNotification } from "metabase/hooks/use-web-notification";
 import { connect, useSelector } from "metabase/lib/redux";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { closeNavbar } from "metabase/redux/app";
 import { getIsNavbarOpen } from "metabase/selectors/app";
 import { getMetadata } from "metabase/selectors/metadata";
@@ -91,6 +92,7 @@ import { isNavigationAllowed } from "../utils";
 
 import { useCreateQuestion } from "./use-create-question";
 import { useSaveQuestion } from "./use-save-question";
+
 
 const timelineProps = {
   query: { include: "events" },
@@ -288,6 +290,24 @@ function QueryBuilderInner(props: QueryBuilderInnerProps) {
   useMount(() => {
     initializeQB(location, params);
   });
+
+  useEffect(() => {
+    if (
+      card?.creationType === "native_question" &&
+      card.dataset_query.type === "native" &&
+      !location.pathname.includes("model")
+    ) {
+      mixpanel.trackEvent(mixpanel.events.question.native_open);
+    }
+
+    if (
+      card?.creationType === "native_question" &&
+      card.dataset_query.type === "native" &&
+      location.pathname.includes("model")
+    ) {
+      mixpanel.trackEvent(mixpanel.events.model_open);
+    }
+  })
 
   useEffect(() => {
     window.addEventListener("resize", forceUpdateDebounced);
