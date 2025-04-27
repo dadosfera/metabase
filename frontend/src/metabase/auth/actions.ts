@@ -8,6 +8,7 @@ import { loadLocalization } from "metabase/lib/i18n";
 import { createAsyncThunk } from "metabase/lib/redux";
 import MetabaseSettings from "metabase/lib/settings";
 import * as Urls from "metabase/lib/urls";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { openNavbar } from "metabase/redux/app";
 import { refreshSiteSettings } from "metabase/redux/settings";
 import { clearCurrentUser, refreshCurrentUser } from "metabase/redux/user";
@@ -61,9 +62,9 @@ export const login = createAsyncThunk(
       await SessionApi.create(data);
       await dispatch(refreshSession()).unwrap();
       mixpanel.trackEvent(mixpanel.events.login, data.username);
-       if (window) {
-         localStorage.setItem(mixpanel.localStorageKey, data.username);
-       }
+      if (window) {
+        localStorage.setItem(mixpanel.localStorageKey, data.username);
+      }
       if (!isSmallScreen()) {
         dispatch(openNavbar());
       }
