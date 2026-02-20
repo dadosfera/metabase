@@ -3,6 +3,7 @@ import { type ReactNode, useRef, useState } from "react";
 import { useMount } from "react-use";
 import _ from "underscore";
 
+import ExternalLink from "metabase/common/components/ExternalLink";
 import { TitleAndDescription } from "metabase/common/components/TitleAndDescription";
 import CS from "metabase/css/core/index.css";
 import TransitionS from "metabase/css/core/transitions.module.css";
@@ -294,7 +295,27 @@ export const EmbedFrame = ({
           className={EmbedFrameS.EmbedFrameFooter}
           variant={footerVariant}
         >
-          {hasEmbedBranding && <LogoBadge dark={theme === "night"} />}
+          {/* eslint-disable i18next/no-literal-string */}
+          {hasEmbedBranding && (
+            <div className="flex align-center">
+              <LogoBadge dark={theme === "night"} />
+              <ExternalLink
+                href="https://dadosfera.ai"
+                target="_blank"
+                className="h4 flex text-bold align-center no-decoration"
+              >
+                <span className="text-small">
+                  <span className="ml2 md-ml2 text-medium">
+                    / Accelerated By{" "}
+                    <span className={theme ? "text-white" : "text-brand"}>
+                      Dadosfera
+                    </span>
+                  </span>
+                </span>
+              </ExternalLink>
+            </div>
+          )}
+          {/* eslint-enable i18next/no-literal-string */}
           {actionButtons && (
             <ActionButtonsContainer>{actionButtons}</ActionButtonsContainer>
           )}

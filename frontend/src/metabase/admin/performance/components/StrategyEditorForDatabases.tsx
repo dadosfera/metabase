@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import { t } from "ttag";
 import { findWhere } from "underscore";
 
-import { UpsellCacheConfig } from "metabase/admin/upsells";
+// import { UpsellCacheConfig } from "metabase/admin/upsells";
 import { useListDatabasesQuery } from "metabase/api";
 import { DelayedLoadingAndErrorWrapper } from "metabase/common/components/LoadingAndErrorWrapper/DelayedLoadingAndErrorWrapper";
 import { PLUGIN_CACHING } from "metabase/plugins";
@@ -163,7 +163,7 @@ const StrategyEditorForDatabases_Base = ({
             )}
           </Panel>
         </RoundedBox>
-        <UpsellCacheConfig source="performance-data_cache" />
+        {/* <UpsellCacheConfig source="performance-data_cache" /> */}
       </Flex>
     </TabWrapper>
   );

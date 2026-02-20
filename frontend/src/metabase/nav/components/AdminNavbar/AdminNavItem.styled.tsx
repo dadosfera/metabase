@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 
 import Link from "metabase/common/components/Link";
 import { doNotForwardProps } from "metabase/common/utils/doNotForwardProps";
+import { alpha } from "metabase/lib/colors";
 import { breakpointMaxLarge } from "metabase/styled-components/theme";
 
 interface AdminNavLinkProps {
@@ -39,4 +40,11 @@ export const AdminNavListItem = styled(
   justify-content: center;
   min-width: ${(props) =>
     props.currentPath.startsWith(props.path) ? "fit-content" : "0px"};
+`;
+
+export const ExternalNavLink = styled.span`
+  display: flex;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: ${alpha("white", 0.63)};
 `;

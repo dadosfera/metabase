@@ -6,14 +6,14 @@ import { t } from "ttag";
 
 import LogoIcon from "metabase/common/components/LogoIcon";
 import CS from "metabase/css/core/index.css";
-import { useDispatch, useSelector } from "metabase/lib/redux";
+import { useDispatch } from "metabase/lib/redux";
 import { useRegisterShortcut } from "metabase/palette/hooks/useRegisterShortcut";
-import { getIsPaidPlan } from "metabase/selectors/settings";
+// import { getIsPaidPlan } from "metabase/selectors/settings";
 import { Button, Icon } from "metabase/ui";
 import type { User } from "metabase-types/api";
 import type { AdminPath } from "metabase-types/store";
 
-import StoreLink from "../StoreLink";
+// import StoreLink from "../StoreLink";
 
 import { AdminNavItem } from "./AdminNavItem";
 import { AdminNavLink } from "./AdminNavItem.styled";
@@ -27,6 +27,7 @@ import {
   AdminMobileNavbar,
   AdminNavbarItems,
   AdminNavbarRoot,
+  FlexColumnContainer,
   MobileHide,
 } from "./AdminNavbar.styled";
 
@@ -40,7 +41,7 @@ export const AdminNavbar = ({
   path: currentPath,
   adminPaths,
 }: AdminNavbarProps) => {
-  const isPaidPlan = useSelector(getIsPaidPlan);
+  // const isPaidPlan = useSelector(getIsPaidPlan);
   const dispatch = useDispatch();
 
   useRegisterShortcut(
@@ -63,6 +64,11 @@ export const AdminNavbar = ({
     [adminPaths],
   );
 
+  const pathBlackList = ["troubleshooting", "permissions", "tools"];
+  const adminPathsFiltered = adminPaths.filter(
+    (path) => !pathBlackList.includes(path.key),
+  );
+
   return (
     <AdminNavbarRoot
       data-element-id="navbar-root"
@@ -71,16 +77,21 @@ export const AdminNavbar = ({
       <AdminLogoLink to="/admin">
         <AdminLogoContainer>
           <LogoIcon className={cx(CS.textBrand, CS.my2)} dark />
+          <FlexColumnContainer>
+            {/* eslint-disable-next-line no-literal-metabase-strings -- Dadosfera branding */}
+            <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
+            {/* eslint-disable-next-line i18next/no-literal-string -- Dadosfera branding */}
+            <AdminLogoText>Accelerated By Dadosfera</AdminLogoText>
+          </FlexColumnContainer>
           {/* eslint-disable-next-line no-literal-metabase-strings -- Metabase settings */}
-          <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
         </AdminLogoContainer>
       </AdminLogoLink>
 
-      <MobileNavbar adminPaths={adminPaths} currentPath={currentPath} />
+      <MobileNavbar adminPaths={adminPathsFiltered} currentPath={currentPath} />
 
       <MobileHide>
         <AdminNavbarItems data-testid="admin-navbar-items">
-          {adminPaths.map(({ name, key, path }) => (
+          {adminPathsFiltered.map(({ name, key, path }) => (
             <AdminNavItem
               name={name}
               path={path}
@@ -90,7 +101,7 @@ export const AdminNavbar = ({
           ))}
         </AdminNavbarItems>
 
-        {!isPaidPlan && <StoreLink />}
+        {/* {!isPaidPlan && <StoreLink />} */}
         <AdminExitLink
           to="/"
           data-testid="exit-admin"

@@ -7,6 +7,7 @@ import { isWithinIframe, openSaveDialog } from "metabase/lib/dom";
 import { createAsyncThunk } from "metabase/lib/redux";
 import { checkNotNull } from "metabase/lib/types";
 import * as Urls from "metabase/lib/urls";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { getTokenFeature } from "metabase/setup/selectors";
 import { saveChartImage } from "metabase/visualizations/lib/save-chart-image";
 import { getCardKey } from "metabase/visualizations/lib/utils";
@@ -116,6 +117,15 @@ export const downloadQueryResults = createAsyncThunk(
       resourceType,
       accessedVia,
       exportType: opts.type,
+    });
+
+    mixpanel.trackEvent(mixpanel.events.download, undefined, {
+      type: opts?.type || "",
+      token: opts?.token || "",
+      dashboardId: opts?.dashboardId || "",
+      dashcardId: opts?.dashcardId || "",
+      uuid: opts?.uuid || "",
+      params: opts?.params || "",
     });
 
     if (opts.type === Urls.exportFormatPng) {

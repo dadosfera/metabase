@@ -6,20 +6,18 @@ import NoResults from "assets/img/no_results.svg";
 import { useListDatabasesQuery } from "metabase/api";
 import { LoadingAndErrorWrapper } from "metabase/common/components/LoadingAndErrorWrapper";
 import CS from "metabase/css/core/index.css";
-import { getEngineLogo } from "metabase/databases/utils/engine";
+// import { getEngineLogo } from "metabase/databases/utils/engine";
 import { color } from "metabase/lib/colors";
 import { useSelector } from "metabase/lib/redux";
 import * as Urls from "metabase/lib/urls";
-import { newDatabase } from "metabase/lib/urls";
+// import { newDatabase } from "metabase/lib/urls";
 import { getUserIsAdmin } from "metabase/selectors/user";
 import {
   Box,
-  Group,
   Icon,
   SimpleGrid,
   Stack,
   type StackProps,
-  Text,
   Title,
 } from "metabase/ui";
 
@@ -32,7 +30,7 @@ import {
 import { BrowseDataHeader } from "../components/BrowseDataHeader";
 
 import DB from "./BrowseDatabases.module.css";
-import { trackAddDatabaseDBList } from "./analytics";
+// import { trackAddDatabaseDBList } from "./analytics";
 
 export const BrowseDatabases = () => {
   const isAdmin = useSelector(getUserIsAdmin);
@@ -61,15 +59,20 @@ export const BrowseDatabases = () => {
     );
   }
 
+  const filteredDatabases = databases?.filter(
+    (database) =>
+      database.name !== "Sample Database" && database.engine !== "h2",
+  );
+
   return (
     <BrowseContainer>
       <BrowseDataHeader />
       <BrowseMain>
         <BrowseSection>
           <SimpleGrid data-testid="database-browser" cols={3}>
-            {databases &&
-              databases.length > 0 &&
-              databases.map((database) => (
+            {filteredDatabases &&
+              filteredDatabases.length > 0 &&
+              filteredDatabases.map((database) => (
                 <Link to={Urls.browseDatabase(database)} key={database.id}>
                   <DatabaseCard
                     bg="bg-white"
@@ -83,7 +86,7 @@ export const BrowseDatabases = () => {
                 </Link>
               ))}
 
-            {isAdmin && (
+            {/* {isAdmin && (
               <Link to={newDatabase()} onClick={() => trackAddDatabaseDBList()}>
                 <DatabaseCard
                   className={cx(CS.rounded, CS.bordered, DB.addCard)}
@@ -106,7 +109,7 @@ export const BrowseDatabases = () => {
                   </div>
                 </DatabaseCard>
               </Link>
-            )}
+            )} */}
           </SimpleGrid>
         </BrowseSection>
       </BrowseMain>
@@ -114,23 +117,23 @@ export const BrowseDatabases = () => {
   );
 };
 
-const CardImageWrapper = ({ database }: { database: string }) => {
-  return (
-    <Box
-      bg="white"
-      h="xl"
-      w="xl"
-      className={CS.rounded}
-      style={{
-        boxShadow:
-          // eslint-disable-next-line no-color-literals
-          "0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 4px 0px rgba(0, 0, 0, 0.10)",
-      }}
-    >
-      <img src={getEngineLogo(database)} alt={t`${database} database logo`} />
-    </Box>
-  );
-};
+// const CardImageWrapper = ({ database }: { database: string }) => {
+//   return (
+//     <Box
+//       bg="white"
+//       h="xl"
+//       w="xl"
+//       className={CS.rounded}
+//       style={{
+//         boxShadow:
+//           // eslint-disable-next-line no-color-literals
+//           "0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 4px 0px rgba(0, 0, 0, 0.10)",
+//       }}
+//     >
+//       <img src={getEngineLogo(database)} alt={t`${database} database logo`} />
+//     </Box>
+//   );
+// };
 
 const DatabaseCard = ({ children, ...props }: StackProps) => {
   return (

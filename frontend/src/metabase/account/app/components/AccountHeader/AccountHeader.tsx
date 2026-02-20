@@ -26,7 +26,7 @@ export const AccountHeader = ({
   path,
   onChangeLocation,
 }: AccountHeaderProps) => {
-  const hasPasswordChange = useMemo(
+  const _hasPasswordChange = useMemo(
     () => PLUGIN_IS_PASSWORD_USER.every((predicate) => predicate(user)),
     [user],
   );
@@ -34,13 +34,11 @@ export const AccountHeader = ({
   const tabs = useMemo(
     () => [
       { name: t`Profile`, value: "/account/profile" },
-      ...(hasPasswordChange
-        ? [{ name: t`Password`, value: "/account/password" }]
-        : []),
+      // Dadosfera: password change is disabled
       { name: t`Login History`, value: "/account/login-history" },
       { name: t`Notifications`, value: "/account/notifications" },
     ],
-    [hasPasswordChange],
+    [],
   );
 
   const userFullName = getFullName(user);

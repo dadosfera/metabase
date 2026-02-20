@@ -25,7 +25,7 @@ import type {
 } from "metabase-types/api";
 
 import { DatabaseConnectionInfoSection } from "../components/DatabaseConnectionInfoSection";
-import { DatabaseDangerZoneSection } from "../components/DatabaseDangerZoneSection";
+// import { DatabaseDangerZoneSection } from "../components/DatabaseDangerZoneSection";
 import { DatabaseModelFeaturesSection } from "../components/DatabaseModelFeaturesSection";
 import { ExistingDatabaseHeader } from "../components/ExistingDatabaseHeader";
 import { NewDatabasePermissionsModal } from "../components/NewDatabasePermissionsModal";
@@ -50,11 +50,11 @@ function DatabaseEditAppInner({
   children,
   params,
   updateDatabase,
-  deleteDatabase,
+  deleteDatabase: _deleteDatabase,
   location,
 }: DatabaseEditAppProps) {
   const dispatch = useDispatch();
-  const isAdmin = useSelector(getUserIsAdmin);
+  const _isAdmin = useSelector(getUserIsAdmin);
   const isModelPersistenceEnabled = useSetting("persisted-models-enabled");
 
   const databaseId = parseInt(params.databaseId, 10);
@@ -120,11 +120,11 @@ function DatabaseEditAppInner({
                     database={database}
                   />
 
-                  <DatabaseDangerZoneSection
+                  {/* <DatabaseDangerZoneSection
                     isAdmin={isAdmin}
                     database={database}
                     deleteDatabase={deleteDatabase}
-                  />
+                  /> */}
                 </Flex>
 
                 <NewDatabasePermissionsModal

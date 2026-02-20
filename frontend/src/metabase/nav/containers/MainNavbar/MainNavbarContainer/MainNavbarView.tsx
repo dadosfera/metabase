@@ -1,6 +1,5 @@
 import type { MouseEvent } from "react";
 import { useCallback, useMemo } from "react";
-import { push } from "react-router-redux";
 import { t } from "ttag";
 import _ from "underscore";
 
@@ -8,17 +7,10 @@ import ErrorBoundary from "metabase/ErrorBoundary";
 import { Tree } from "metabase/common/components/tree";
 import { useHasTokenFeature, useUserSetting } from "metabase/common/hooks";
 import { useIsAtHomepageDashboard } from "metabase/common/hooks/use-is-at-homepage-dashboard";
-import { OnboardingDismissedToast } from "metabase/home/components/Onboarding";
-import {
-  getCanAccessOnboardingPage,
-  getIsNewInstance,
-} from "metabase/home/selectors";
 import { isSmallScreen } from "metabase/lib/dom";
-import { useDispatch, useSelector } from "metabase/lib/redux";
+import { useSelector } from "metabase/lib/redux";
 import * as Urls from "metabase/lib/urls";
 import { WhatsNewNotification } from "metabase/nav/components/WhatsNewNotification";
-import { addUndo } from "metabase/redux/undo";
-import { getHasOwnDatabase } from "metabase/selectors/data";
 import { getSetting } from "metabase/selectors/settings";
 import {
   ActionIcon,
@@ -33,19 +25,14 @@ import type { Bookmark, Collection } from "metabase-types/api";
 
 import {
   PaddedSidebarLink,
-  PaddedSidebarLinkDismissible,
   SidebarContentRoot,
   SidebarHeading,
   SidebarSection,
   TrashSidebarSection,
 } from "../MainNavbar.styled";
 import { SidebarCollectionLink } from "../SidebarItems";
-import { AddDatabase } from "../SidebarItems/AddDatabase";
 import { DwhUploadMenu } from "../SidebarItems/DwhUpload";
-import {
-  trackNewCollectionFromNavInitiated,
-  trackOnboardingChecklistOpened,
-} from "../analytics";
+import { trackNewCollectionFromNavInitiated } from "../analytics";
 import type { SelectedItem } from "../types";
 
 import BookmarkList from "./BookmarkList";
@@ -90,8 +77,8 @@ export function MainNavbarView({
   const [expandBookmarks = true, setExpandBookmarks] = useUserSetting(
     "expand-bookmarks-in-nav",
   );
-  const [isOnboardingLinkDismissed, setIsOnboardingLinkDismissed] =
-    useUserSetting("dismissed-onboarding-sidebar-link");
+  // const [isOnboardingLinkDismissed, setIsOnboardingLinkDismissed] =
+  //   useUserSetting("dismissed-onboarding-sidebar-link");
 
   const isAtHomepageDashboard = useIsAtHomepageDashboard();
 
@@ -125,29 +112,29 @@ export function MainNavbarView({
     [collections],
   );
 
-  const ONBOARDING_URL = "/getting-started";
-  const isNewInstance = useSelector(getIsNewInstance);
-  const canAccessOnboarding = useSelector(getCanAccessOnboardingPage);
-  const showOnboardingLink =
-    !isOnboardingLinkDismissed && isNewInstance && canAccessOnboarding;
-  const isOnboardingPageSelected = nonEntityItem?.url === ONBOARDING_URL;
+  // const ONBOARDING_URL = "/getting-started";
+  // const isNewInstance = useSelector(getIsNewInstance);
+  // const canAccessOnboarding = useSelector(getCanAccessOnboardingPage);
+  // const showOnboardingLink =
+  //   !isOnboardingLinkDismissed && isNewInstance && canAccessOnboarding;
+  // const isOnboardingPageSelected = nonEntityItem?.url === ONBOARDING_URL;
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const dismissOnboardingLink = () => {
-    setIsOnboardingLinkDismissed(true);
+  // const dismissOnboardingLink = () => {
+  //   setIsOnboardingLinkDismissed(true);
 
-    if (isOnboardingPageSelected) {
-      dispatch(push("/"));
-    }
+  //   if (isOnboardingPageSelected) {
+  //     dispatch(push("/"));
+  //   }
 
-    dispatch(
-      addUndo({
-        icon: "gear",
-        message: <OnboardingDismissedToast />,
-      }),
-    );
-  };
+  //   dispatch(
+  //     addUndo({
+  //       icon: "gear",
+  //       message: <OnboardingDismissedToast />,
+  //     }),
+  //   );
+  // };
 
   // Instances with DWH enabled already have uploads enabled by default.
   // It is not possible to turn the uploads off, nor to delete the attached database.
@@ -173,8 +160,8 @@ export function MainNavbarView({
   const canUpload = canCurateRootCollection && canUploadToDatabase;
   const showUploadMenu = hasAttachedDWHFeature && canUpload;
 
-  const isAdditionalDatabaseAdded = getHasOwnDatabase(databases);
-  const showAddDatabaseButton = isAdmin && !isAdditionalDatabaseAdded;
+  // const isAdditionalDatabaseAdded = getHasOwnDatabase(databases);
+  // const showAddDatabaseButton = isAdmin && !isAdditionalDatabaseAdded;
 
   return (
     <ErrorBoundary>
@@ -189,26 +176,6 @@ export function MainNavbarView({
             >
               {t`Home`}
             </PaddedSidebarLink>
-            {showOnboardingLink && (
-              <PaddedSidebarLinkDismissible
-                icon="learn"
-                right={
-                  <Tooltip label={t`Hide page`} offset={16} position="right">
-                    <Icon
-                      className="dismiss"
-                      name="eye_crossed_out"
-                      onClick={dismissOnboardingLink}
-                    />
-                  </Tooltip>
-                }
-                url={ONBOARDING_URL}
-                isSelected={isOnboardingPageSelected}
-                onClick={() => trackOnboardingChecklistOpened()}
-              >
-                {/* eslint-disable-next-line no-literal-metabase-strings -- We only show this to non-whitelabelled instances */}
-                {t`How to use Metabase`}
-              </PaddedSidebarLinkDismissible>
-            )}
             {showUploadMenu && <DwhUploadMenu />}
           </SidebarSection>
 
@@ -275,13 +242,13 @@ export function MainNavbarView({
               </ErrorBoundary>
             </TrashSidebarSection>
           )}
-          {showAddDatabaseButton && (
+          {/* {showAddDatabaseButton && (
             <SidebarSection>
               <ErrorBoundary>
                 <AddDatabase />
               </ErrorBoundary>
             </SidebarSection>
-          )}
+          )} */}
         </div>
         <WhatsNewNotification />
       </SidebarContentRoot>

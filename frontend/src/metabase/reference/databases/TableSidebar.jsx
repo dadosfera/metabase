@@ -9,6 +9,7 @@ import S from "metabase/common/components/Sidebar.module.css";
 import SidebarItem from "metabase/common/components/SidebarItem";
 import CS from "metabase/css/core/index.css";
 import MetabaseSettings from "metabase/lib/settings";
+import { mixpanel } from "metabase/plugins/mixpanel";
 
 const TableSidebar = ({ database, table, style, className }) => (
   <div className={cx(S.sidebar, className)} style={style}>
@@ -45,6 +46,7 @@ const TableSidebar = ({ database, table, style, className }) => (
       />
       {MetabaseSettings.get("enable-xrays") && (
         <SidebarItem
+          onClick={() => mixpanel.trackEvent(mixpanel.events.xray)}
           key={`/auto/dashboard/table/${table.id}`}
           href={`/auto/dashboard/table/${table.id}`}
           icon="bolt"

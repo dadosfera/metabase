@@ -16,7 +16,7 @@ import type { DatabaseData, Engine } from "metabase-types/api";
 import { getEngines, getIsHosted } from "../../selectors";
 import { getDefaultEngineKey } from "../../utils/engine";
 import {
-  getSubmitValues,
+  // getSubmitValues,
   getValidationSchema,
   getVisibleFields,
 } from "../../utils/schema";
@@ -45,7 +45,7 @@ export interface DatabaseFormConfig {
 interface DatabaseFormProps {
   initialValues?: Partial<DatabaseData>;
   autofocusFieldName?: string;
-  onSubmit?: (values: DatabaseData) => void;
+  onSubmit?: (_values: DatabaseData) => void;
   onEngineChange?: (engineKey: string | undefined) => void;
   onCancel?: () => void;
   setIsDirty?: (isDirty: boolean) => void;
@@ -55,7 +55,7 @@ interface DatabaseFormProps {
 export const DatabaseForm = ({
   initialValues: initialData,
   autofocusFieldName,
-  onSubmit,
+  onSubmit: _onSubmit,
   onCancel,
   onEngineChange,
   setIsDirty,
@@ -82,10 +82,11 @@ export const DatabaseForm = ({
   }, [initialData, engineKey, validationSchema]);
 
   const handleSubmit = useCallback(
-    (values: DatabaseData) => {
-      return onSubmit?.(getSubmitValues(engine, values, isAdvanced));
+    (_values: DatabaseData) => {
+      // return _onSubmit?.(getSubmitValues(engine, _values, isAdvanced));
     },
-    [engine, isAdvanced, onSubmit],
+    // [engine, isAdvanced, onSubmit],
+    [],
   );
 
   const handleEngineChange = useCallback(
@@ -154,7 +155,12 @@ const DatabaseFormBody = ({
   }, [dirty, setIsDirty]);
 
   const fields = useMemo(() => {
-    return engine ? getVisibleFields(engine, values, isAdvanced) : [];
+    // return engine ? getVisibleFields(engine, values, isAdvanced) : [];
+    return engine
+      ? getVisibleFields(engine, values, isAdvanced).filter(
+          (m) => m.type !== "section",
+        )
+      : [];
   }, [engine, values, isAdvanced]);
 
   return (

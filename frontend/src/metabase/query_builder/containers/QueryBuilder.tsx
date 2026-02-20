@@ -19,6 +19,7 @@ import Timelines from "metabase/entities/timelines";
 import title from "metabase/hoc/Title";
 import titleWithLoadingTime from "metabase/hoc/TitleWithLoadingTime";
 import { connect, useSelector } from "metabase/lib/redux";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { closeNavbar } from "metabase/redux/app";
 import { getIsNavbarOpen } from "metabase/selectors/app";
 import { getMetadata } from "metabase/selectors/metadata";
@@ -322,6 +323,24 @@ function QueryBuilderInner(props: QueryBuilderInnerProps) {
   });
 
   useRegisterQueryBuilderMetabotContext();
+
+  useEffect(() => {
+    if (
+      card?.creationType === "native_question" &&
+      card.dataset_query.type === "native" &&
+      !location.pathname.includes("model")
+    ) {
+      mixpanel.trackEvent(mixpanel.events.question.native_open);
+    }
+
+    if (
+      card?.creationType === "native_question" &&
+      card.dataset_query.type === "native" &&
+      location.pathname.includes("model")
+    ) {
+      mixpanel.trackEvent(mixpanel.events.model_open);
+    }
+  });
 
   useEffect(() => {
     window.addEventListener("resize", forceUpdateDebounced);

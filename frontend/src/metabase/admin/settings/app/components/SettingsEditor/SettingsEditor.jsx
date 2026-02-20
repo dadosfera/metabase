@@ -219,11 +219,22 @@ class SettingsEditor extends Component {
 
     const renderedSections = Object.entries(sections).map(
       ([slug, section], idx) => {
+        const isHidden = [
+          "setup",
+          "general",
+          "updates",
+          "authentication",
+          "public-sharing",
+          "embedding-in-other-applications",
+          "license",
+          "cloud",
+          "whitelabel",
+        ].includes(slug);
         // HACK - This is used to hide specific items in the sidebar and is currently
         // only used as a way to fake the multi page auth settings pages without
         // requiring a larger refactor.
         const isNestedSettingPage = Boolean(slug.split("/")[1]);
-        if (isNestedSettingPage) {
+        if (isNestedSettingPage || isHidden) {
           return null;
         }
 

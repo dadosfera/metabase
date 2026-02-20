@@ -5,7 +5,8 @@ import * as Yup from "yup";
 
 import { CommunityLocalizationNotice } from "metabase/common/components/CommunityLocalizationNotice";
 import FormErrorMessage from "metabase/common/components/FormErrorMessage";
-import FormInput from "metabase/common/components/FormInput";
+// Dadosfera: email/name fields are disabled
+// import FormInput from "metabase/common/components/FormInput";
 import FormSelect from "metabase/common/components/FormSelect";
 import FormSubmitButton from "metabase/common/components/FormSubmitButton";
 import { Form, FormProvider } from "metabase/forms";
@@ -61,7 +62,8 @@ const UserProfileForm = ({
     >
       {({ dirty }) => (
         <Form disabled={!dirty}>
-          {!isSsoUser && (
+          {/* Dadosfera: email and name change is disabled */}
+          {/* {!isSsoUser && (
             <>
               <FormInput
                 name="first_name"
@@ -82,7 +84,7 @@ const UserProfileForm = ({
                 placeholder="nicetoseeyou@email.com"
               />
             </>
-          )}
+          )} */}
           <div data-testid="user-locale-select">
             <FormSelect
               name="locale"

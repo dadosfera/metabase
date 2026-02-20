@@ -7,7 +7,7 @@ import _ from "underscore";
 import * as Yup from "yup";
 
 import type { SettingElement } from "metabase/admin/settings/types";
-import { UpsellHosting } from "metabase/admin/upsells";
+// import { UpsellHosting } from "metabase/admin/upsells";
 import Breadcrumbs from "metabase/common/components/Breadcrumbs";
 import CS from "metabase/css/core/index.css";
 import {
@@ -21,7 +21,7 @@ import { color } from "metabase/lib/colors";
 import * as Errors from "metabase/lib/errors";
 import { useDispatch, useSelector } from "metabase/lib/redux";
 import { getIsEmailConfigured, getIsHosted } from "metabase/setup/selectors";
-import { Box, Button, Flex, Group, Radio, Stack, Text } from "metabase/ui";
+import { Button, Flex, Group, Radio, Stack, Text } from "metabase/ui";
 import type { Settings } from "metabase-types/api";
 
 import {
@@ -291,9 +291,9 @@ export const SMTPConnectionForm = ({
           )}
         </FormProvider>
       </Stack>
-      <Box>
+      {/* <Box>
         <UpsellHosting source="settings-email-migrate_to_cloud" />
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

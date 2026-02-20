@@ -6,6 +6,7 @@ import { BrowserCrumbs } from "metabase/common/components/BrowserCrumbs";
 import EntityItem from "metabase/common/components/EntityItem";
 import { color } from "metabase/lib/colors";
 import { isSyncInProgress } from "metabase/lib/syncing";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Icon } from "metabase/ui";
 import { isVirtualCardId } from "metabase-lib/v1/metadata/utils/saved-questions";
 
@@ -127,7 +128,10 @@ const TableBrowserItemButtons = ({ tableId, dbId, xraysEnabled }) => {
   return (
     <Fragment>
       {xraysEnabled && (
-        <TableActionLink to={`/auto/dashboard/table/${tableId}`}>
+        <TableActionLink
+          onClick={() => mixpanel.trackEvent(mixpanel.events.xray)}
+          to={`/auto/dashboard/table/${tableId}`}
+        >
           <Icon
             name="bolt_filled"
             tooltip={t`X-ray this table`}

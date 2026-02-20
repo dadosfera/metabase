@@ -8,7 +8,7 @@ import CS from "metabase/css/core/index.css";
 import { FormMessage } from "metabase/forms";
 import { isSyncCompleted } from "metabase/lib/syncing";
 import { PLUGIN_FEATURE_LEVEL_PERMISSIONS } from "metabase/plugins";
-import { Button, Flex, Loader, UnstyledButton } from "metabase/ui";
+import { Flex, Loader, UnstyledButton } from "metabase/ui";
 import type { Database, Engine } from "metabase-types/api";
 
 const query = {
@@ -40,6 +40,15 @@ export const DatabaseList = ({
 }: DatabaseListProps) => {
   const error = deletionError || addSampleDatabaseError;
 
+  const filteredDatabases = useMemo(() => {
+    return (
+      databases?.filter(
+        (database) =>
+          database.name !== "Sample Database" && database.engine !== "h2",
+      ) || []
+    );
+  }, [databases]);
+
   const hasSampleDatabase = useMemo(() => {
     return databases.some((db) => db.is_sample);
   }, [databases]);
@@ -50,13 +59,13 @@ export const DatabaseList = ({
         <section className={cx(AdminS.PageHeader, CS.px2, CS.clearfix)}>
           <Flex justify="space-between" align="center">
             <h2 className={CS.m0}>{t`Databases`}</h2>
-            {isAdmin && (
+            {/* {isAdmin && (
               <Button
                 variant="filled"
                 component={Link}
                 to="/admin/databases/create"
               >{t`Add database`}</Button>
-            )}
+            )} */}
           </Flex>
         </section>
         {error && (
@@ -73,8 +82,8 @@ export const DatabaseList = ({
               </tr>
             </thead>
             <tbody>
-              {databases ? (
-                databases.map((database) => (
+              {filteredDatabases ? (
+                filteredDatabases.map((database) => (
                   <tr
                     key={database.id}
                     className={cx({
