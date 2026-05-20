@@ -4,16 +4,19 @@ import { push } from "react-router-redux";
 import { t } from "ttag";
 
 import { LogoIcon } from "metabase/common/components/LogoIcon";
-import { useDispatch, useSelector } from "metabase/lib/redux";
+import { 
+  useDispatch,
+  // useSelector
+} from "metabase/lib/redux";
 import { useRegisterShortcut } from "metabase/palette/hooks/useRegisterShortcut";
 import { PLUGIN_SECURITY_CENTER } from "metabase/plugins";
-import { getIsPaidPlan } from "metabase/selectors/settings";
-import { getUserIsAdmin } from "metabase/selectors/user";
+// import { getIsPaidPlan } from "metabase/selectors/settings";
+// import { getUserIsAdmin } from "metabase/selectors/user";
 import { Button, Icon } from "metabase/ui";
 import type { AdminPath } from "metabase-types/store";
 
 import { AppSwitcher } from "../AppSwitcher";
-import StoreLink from "../StoreLink";
+// import StoreLink from "../StoreLink";
 
 import { AdminNavItem } from "./AdminNavItem";
 import { AdminNavLink } from "./AdminNavItem.styled";
@@ -27,6 +30,7 @@ import {
   AdminMobileNavbar,
   AdminNavbarItems,
   AdminNavbarRoot,
+  // FlexColumnContainer,
   MobileHide,
 } from "./AdminNavbar.styled";
 
@@ -39,8 +43,8 @@ export const AdminNavbar = ({
   path: currentPath,
   adminPaths,
 }: AdminNavbarProps) => {
-  const isPaidPlan = useSelector(getIsPaidPlan);
-  const isAdmin = useSelector(getUserIsAdmin);
+  // const isPaidPlan = useSelector(getIsPaidPlan);
+  // const isAdmin = useSelector(getUserIsAdmin);
   const dispatch = useDispatch();
 
   useRegisterShortcut(
@@ -63,6 +67,11 @@ export const AdminNavbar = ({
     [adminPaths],
   );
 
+  const pathBlackList = ["troubleshooting", "permissions", "tools"];
+  const adminPathsFiltered = adminPaths.filter(
+    (path) => !pathBlackList.includes(path.key),
+  );
+
   return (
     <AdminNavbarRoot
       data-element-id="navbar-root"
@@ -74,12 +83,14 @@ export const AdminNavbar = ({
           <LogoIcon dark />
           {/* eslint-disable-next-line metabase/no-literal-metabase-strings -- Metabase settings */}
           <AdminLogoText>{t`Metabase Admin`}</AdminLogoText>
+          {/* eslint-disable-next-line i18next/no-literal-string -- Metabase settings */}
+          <AdminLogoText>Accelerated By Dadosfera</AdminLogoText>
         </AdminLogoContainer>
       </AdminLogoLink>
 
       <MobileHide>
         <AdminNavbarItems data-testid="admin-navbar-items">
-          {adminPaths.map(({ name, key, path }) => (
+          {adminPathsFiltered.map(({ name, key, path }) => (
             <AdminNavItem
               name={name}
               path={path}
@@ -96,7 +107,7 @@ export const AdminNavbar = ({
           )}
         </AdminNavbarItems>
 
-        {!isPaidPlan && isAdmin && <StoreLink />}
+        {/* {!isPaidPlan && isAdmin && <StoreLink />} */}
       </MobileHide>
       <AdminButtons>
         <MobileNavbar adminPaths={adminPaths} currentPath={currentPath} />

@@ -14,6 +14,7 @@ import { PLUGIN_TABLE_EDITING } from "metabase/plugins";
 import { getShallowDatabases as getDatabases } from "metabase/selectors/metadata";
 import { getUserIsAdmin } from "metabase/selectors/user";
 import { ActionIcon, Flex, Group, Icon, Loader, Paper } from "metabase/ui";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { isVirtualCardId } from "metabase-lib/v1/metadata/utils/saved-questions";
 
 import { trackBrowseXRayClicked, trackTableClick } from "../analytics";

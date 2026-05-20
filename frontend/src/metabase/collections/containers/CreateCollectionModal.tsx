@@ -7,6 +7,7 @@ import { useEscapeToCloseModal } from "metabase/common/hooks/use-escape-to-close
 import { Collections } from "metabase/entities/collections";
 import { connect } from "metabase/lib/redux";
 import * as Urls from "metabase/lib/urls";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Modal } from "metabase/ui";
 import type { Collection } from "metabase-types/api";
 import type { State } from "metabase-types/store";
@@ -46,6 +47,7 @@ function CreateCollectionModal({
 }: Props) {
   const handleCreate = useCallback(
     async (values: CreateCollectionProperties) => {
+      mixpanel.trackEvent(mixpanel.events.create_collection);
       const action = await handleCreateCollection(values);
       const collection = Collections.HACK_getObjectFromAction(action);
 

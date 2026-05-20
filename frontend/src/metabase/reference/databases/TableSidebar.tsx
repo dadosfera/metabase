@@ -7,6 +7,7 @@ import S from "metabase/common/components/Sidebar.module.css";
 import { SidebarItem } from "metabase/common/components/SidebarItem";
 import CS from "metabase/css/core/index.css";
 import MetabaseSettings from "metabase/lib/settings";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import type { Database, Table } from "metabase-types/api";
 
 import { trackReferenceXRayClicked } from "../analytics";

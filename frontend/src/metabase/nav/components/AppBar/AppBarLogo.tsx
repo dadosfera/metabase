@@ -3,7 +3,7 @@ import type { MouseEvent } from "react";
 import { LogoIcon } from "metabase/common/components/LogoIcon";
 import { useIsAtHomepageDashboard } from "metabase/common/hooks/use-is-at-homepage-dashboard";
 
-import { LogoLink } from "./AppBarLogo.styled";
+import { DadosferaLogo, LogoLink } from "./AppBarLogo.styled";
 
 export interface AppBarLogoProps {
   isSmallAppBar?: boolean;
@@ -45,6 +45,11 @@ export function AppBarLogo({
       data-testid="main-logo-link"
     >
       <LogoIcon height={32} />
+      <DadosferaLogo>
+        {/* eslint-disable-next-line i18next/no-literal-string */}
+        <span>Accelerated By</span>
+        <img src="app/img/ddf-d.svg"></img>
+      </DadosferaLogo>
     </LogoLink>
   );
 }

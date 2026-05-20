@@ -88,7 +88,7 @@ export function GeneralSettingsPage() {
           inputType="textarea"
         />
       </SettingsSection>
-      <UpsellDevInstances location="settings-general" />
+      {/* <UpsellDevInstances location="settings-general" /> */}
     </SettingsPageWrapper>
   );
 }

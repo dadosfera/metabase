@@ -116,7 +116,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
             isNavbarOpened={isNavbarOpened}
             onNavbarToggle={onNavbarToggle}
           />
-          <DataStudioTab
+          {/* <DataStudioTab
             label={t`Library`}
             icon="repository"
             to={Urls.dataStudioLibrary()}
@@ -129,7 +129,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
                 <PLUGIN_REMOTE_SYNC.CollectionSyncStatusBadge />
               ) : null
             }
-          />
+          /> */}
 
           {canAccessDataModel && (
             <DataStudioTab
@@ -147,7 +147,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
             isSelected={currentTab === "glossary"}
             showLabel={isNavbarOpened}
           />
-          <DataStudioTab
+          {/* <DataStudioTab
             label={t`Dependency graph`}
             icon="dependencies"
             to={Urls.dependencyGraph()}
@@ -162,7 +162,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
             isSelected={currentTab === "dependency-diagnostics"}
             showLabel={isNavbarOpened}
             isGated={!hasDependenciesFeature}
-          />
+          /> */}
           {canAccessTransforms && (
             <DataStudioTab
               label={t`Transforms`}
@@ -181,7 +181,14 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
           )}
         </Stack>
         <Stack gap="0.75rem">
-          {hasRemoteSyncFeature ? (
+        {hasRemoteSyncFeature && (
+            <PLUGIN_REMOTE_SYNC.GitSyncSetupMenuItem
+              isNavbarOpened={isNavbarOpened}
+              onClick={() => setIsGitSettingsOpen(true)}
+            />
+          )}
+
+          {/* {hasRemoteSyncFeature ? (
             <PLUGIN_REMOTE_SYNC.GitSyncSetupMenuItem
               isNavbarOpened={isNavbarOpened}
               onClick={() => setIsGitSettingsOpen(true)}
@@ -195,7 +202,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
               showLabel={isNavbarOpened}
               isGated
             />
-          )}
+          )} */}
           {canAccessTransforms && (
             <DataStudioTab
               label={t`Jobs`}

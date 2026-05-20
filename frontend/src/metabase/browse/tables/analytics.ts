@@ -1,4 +1,5 @@
 import { trackSchemaEvent, trackSimpleEvent } from "metabase/lib/analytics";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import type { ConcreteTableId } from "metabase-types/api";
 
 export const trackTableClick = (tableId: ConcreteTableId) =>
@@ -8,6 +9,8 @@ export const trackTableClick = (tableId: ConcreteTableId) =>
   });
 
 export const trackBrowseXRayClicked = () => {
+  mixpanel.trackEvent(mixpanel.events.xray);
+
   trackSimpleEvent({
     event: "x-ray_clicked",
     event_detail: "table",

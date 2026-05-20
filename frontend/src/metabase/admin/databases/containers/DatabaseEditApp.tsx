@@ -26,7 +26,7 @@ import { Box, Divider, Flex } from "metabase/ui";
 import type { DatabaseId, Database as DatabaseType } from "metabase-types/api";
 
 import { DatabaseConnectionInfoSection } from "../components/DatabaseConnectionInfoSection";
-import { DatabaseDangerZoneSection } from "../components/DatabaseDangerZoneSection";
+// import { DatabaseDangerZoneSection } from "../components/DatabaseDangerZoneSection";
 import { DatabaseModelFeaturesSection } from "../components/DatabaseModelFeaturesSection";
 import { ExistingDatabaseHeader } from "../components/ExistingDatabaseHeader";
 import { deleteDatabase, updateDatabase } from "../database";
@@ -127,11 +127,11 @@ function DatabaseEditAppInner({
                     database={database}
                   />
 
-                  <DatabaseDangerZoneSection
+                  {/* <DatabaseDangerZoneSection
                     isAdmin={isAdmin}
                     database={database}
                     deleteDatabase={deleteDatabase}
-                  />
+                  /> */}
                 </Flex>
               </>
             )}

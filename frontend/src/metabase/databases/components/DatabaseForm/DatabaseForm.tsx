@@ -35,7 +35,7 @@ type ContinueWithoutDataComponent = (props: {
 interface DatabaseFormProps {
   initialValues?: Partial<DatabaseData>;
   autofocusFieldName?: string;
-  onSubmit?: (values: DatabaseData) => void;
+  onSubmit?: (_values: DatabaseData) => void;
   onEngineChange?: (engineKey: string | undefined) => void;
   onCancel?: () => void;
   onDirtyStateChange?: (isDirty: boolean) => void;
@@ -52,7 +52,7 @@ interface DatabaseFormProps {
 export const DatabaseForm = ({
   initialValues: initialData,
   autofocusFieldName,
-  onSubmit,
+  onSubmit: _onSubmit,
   onCancel,
   onEngineChange,
   onDirtyStateChange,
@@ -87,10 +87,11 @@ export const DatabaseForm = ({
   }, [initialEngineKey]);
 
   const handleSubmit = useCallback(
-    (values: DatabaseData) => {
-      return onSubmit?.(getSubmitValues(engine, values, isAdvanced));
+    (_values: DatabaseData) => {
+      // return _onSubmit?.(getSubmitValues(engine, _values, isAdvanced));
     },
-    [engine, isAdvanced, onSubmit],
+    // [engine, isAdvanced, onSubmit],
+    [],
   );
 
   const handleEngineChange = useCallback(

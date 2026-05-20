@@ -19,6 +19,7 @@ import { checkNotNull } from "metabase/lib/types";
 import * as Urls from "metabase/lib/urls";
 import { isJWT } from "metabase/lib/utils";
 import { isUuid } from "metabase/lib/uuid";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { getTokenFeature } from "metabase/setup/selectors";
 import { saveChartImage } from "metabase/visualizations/lib/save-chart-image";
 import { saveDashboardPdf } from "metabase/visualizations/lib/save-dashboard-pdf";
@@ -224,6 +225,15 @@ export const downloadQueryResults = createAsyncThunk(
       resourceType,
       accessedVia,
       exportType: opts.type,
+    });
+
+    mixpanel.trackEvent(mixpanel.events.download, undefined, {
+      type: opts?.type || "",
+      token: opts?.token || "",
+      dashboardId: opts?.dashboardId || "",
+      dashcardId: opts?.dashcardId || "",
+      uuid: opts?.uuid || "",
+      params: opts?.params || "",
     });
 
     if (opts.type === Urls.exportFormatPng) {

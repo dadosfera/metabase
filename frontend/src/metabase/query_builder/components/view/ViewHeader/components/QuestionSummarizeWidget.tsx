@@ -1,6 +1,7 @@
 import { t } from "ttag";
 
 import { useRegisterShortcut } from "metabase/palette/hooks/useRegisterShortcut";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Button, Icon } from "metabase/ui";
 import * as Lib from "metabase-lib";
 import type Question from "metabase-lib/v1/Question";
@@ -42,7 +43,15 @@ export function QuestionSummarizeWidget({
       color="summarize"
       variant={isShowingSummarySidebar ? "filled" : "default"}
       leftSection={<Icon name="sum" />}
-      onClick={handleClick}
+      onClick={async () => {
+        if (isShowingSummarySidebar) {
+          mixpanel.trackEvent(mixpanel.events.summarize.close);
+          onCloseSummary();
+        } else {
+          mixpanel.trackEvent(mixpanel.events.summarize.open);
+          onEditSummary();
+        }
+      }}
       data-active={isShowingSummarySidebar}
       className={ViewTitleHeaderS.SummarizeButton}
       classNames={{

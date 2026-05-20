@@ -31,7 +31,7 @@ export function SettingsNav() {
   return (
     <AdminNavWrapper>
       <SettingsNavItem path="general" label={t`General`} icon="gear" />
-      <SettingsNavItem
+      {/* <SettingsNavItem
         label={t`Authentication`}
         icon="lock"
         folderPattern="auth"
@@ -49,7 +49,7 @@ export function SettingsNav() {
         {hasSaml && <SettingsNavItem path="authentication/saml" label="SAML" />}
         {hasJwt && <SettingsNavItem path="authentication/jwt" label="JWT" />}
         {hasOidc && <SettingsNavItem path="authentication/oidc" label="OIDC" />}
-      </SettingsNavItem>
+      </SettingsNavItem> */}
       <PLUGIN_REMOTE_SYNC.LibraryNav />
       <NavDivider />
       <SettingsNavItem path="email" label={t`Email`} icon="mail" />
@@ -63,7 +63,7 @@ export function SettingsNav() {
         icon="globe"
       />
       <SettingsNavItem path="maps" label={t`Maps`} icon="pinmap" />
-      <SettingsNavItem
+      {/* <SettingsNavItem
         path={!hasWhitelabel ? "whitelabel" : undefined}
         folderPattern="whitelabel"
         label={
@@ -87,7 +87,7 @@ export function SettingsNav() {
             label={t`Conceal Metabase`}
           />,
         ]}
-      </SettingsNavItem>
+      </SettingsNavItem> */}
       <NavDivider />
       <SettingsNavItem path="uploads" label={t`Uploads`} icon="upload" />
       {/* Python Runner settings are managed by Metabase Cloud for hosted instances */}
@@ -104,8 +104,8 @@ export function SettingsNav() {
         icon="share"
       />
       <NavDivider />
-      <SettingsNavItem path="license" label={t`License`} icon="store" />
-      <SettingsNavItem
+      {/* <SettingsNavItem path="license" label={t`License`} icon="store" /> */}
+      {/* <SettingsNavItem
         path="cloud"
         label={
           <Flex gap="sm" align="center">
@@ -114,7 +114,7 @@ export function SettingsNav() {
           </Flex>
         }
         icon="cloud"
-      />
+      /> */}
     </AdminNavWrapper>
   );
 }

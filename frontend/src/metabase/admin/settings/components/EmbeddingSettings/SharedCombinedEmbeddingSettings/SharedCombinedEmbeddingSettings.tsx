@@ -50,7 +50,7 @@ export function SharedCombinedEmbeddingSettings({
         testId="guest-embeds-setting-card"
       />
 
-      {!isSimpleEmbedFeatureAvailable && (
+      {/* {!isSimpleEmbedFeatureAvailable && (
         <UpsellBanner
           title={t`Upgrade to Metabase Pro for more powerful embedding methods`}
           campaign="embedding-methods"
@@ -64,7 +64,7 @@ export function SharedCombinedEmbeddingSettings({
             {t`Embed charts, dashboards with drill-throughs, or even the query builder into your own application using customizable components. Secure your embeds with single sign-on.`}
           </Text>
         </UpsellBanner>
-      )}
+      )} */}
 
       <SettingsSection>
         <EmbeddingSecretKeyWidget />

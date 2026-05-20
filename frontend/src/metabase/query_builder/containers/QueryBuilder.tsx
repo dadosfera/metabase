@@ -24,6 +24,7 @@ import {
   getDatabasesList,
   getSampleDatabaseId,
 } from "metabase/querying/selectors";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { closeNavbar } from "metabase/redux/app";
 import { getIsNavbarOpen } from "metabase/selectors/app";
 import { getMetadata } from "metabase/selectors/metadata";
@@ -343,6 +344,24 @@ function QueryBuilderInner(props: QueryBuilderInnerProps) {
   });
 
   useRegisterQueryBuilderMetabotContext();
+
+  useEffect(() => {
+    if (
+      card?.creationType === "native_question" &&
+      card.dataset_query.type === "native" &&
+      !location.pathname.includes("model")
+    ) {
+      mixpanel.trackEvent(mixpanel.events.question.native_open);
+    }
+
+    if (
+      card?.creationType === "native_question" &&
+      card.dataset_query.type === "native" &&
+      location.pathname.includes("model")
+    ) {
+      mixpanel.trackEvent(mixpanel.events.model_open);
+    }
+  });
 
   useEffect(() => {
     window.addEventListener("resize", forceUpdateDebounced);

@@ -167,9 +167,9 @@ export function MainNavbarView({
       currentUser,
     ]);
 
-  const isNewInstance = useSelector(getIsNewInstance);
-  const canAccessOnboarding = useSelector(getCanAccessOnboardingPage);
-  const shouldDisplayGettingStarted = isNewInstance && canAccessOnboarding;
+  // const isNewInstance = useSelector(getIsNewInstance);
+  // const canAccessOnboarding = useSelector(getCanAccessOnboardingPage);
+  // const shouldDisplayGettingStarted = isNewInstance && canAccessOnboarding;
 
   const showOtherUsersCollections = useShowOtherUsersCollections();
 
@@ -192,7 +192,7 @@ export function MainNavbarView({
             </PaddedSidebarLink>
           </SidebarSection>
 
-          {shouldDisplayGettingStarted && (
+          {/* {shouldDisplayGettingStarted && (
             <SidebarSection>
               <ErrorBoundary>
                 <GettingStartedSection
@@ -215,7 +215,7 @@ export function MainNavbarView({
                 </GettingStartedSection>
               </ErrorBoundary>
             </SidebarSection>
-          )}
+          )} */}
 
           {bookmarks.length > 0 && (
             <SidebarSection>
@@ -334,7 +334,7 @@ export function MainNavbarView({
         </div>
       </SidebarContentRoot>
 
-      <AddDataModal opened={addDataModalOpened} onClose={closeAddDataModal} />
+      {/* <AddDataModal opened={addDataModalOpened} onClose={closeAddDataModal} /> */}
     </ErrorBoundary>
   );
 }

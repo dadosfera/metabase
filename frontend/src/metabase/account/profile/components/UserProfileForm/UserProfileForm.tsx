@@ -11,7 +11,6 @@ import {
   FormProvider,
   FormSelect,
   FormSubmitButton,
-  FormTextInput,
 } from "metabase/forms";
 import * as Errors from "metabase/lib/errors";
 import { Box, Text } from "metabase/ui";
@@ -77,7 +76,7 @@ const UserProfileForm = ({
       >
         {({ dirty }) => (
           <Form disabled={!dirty}>
-            {!isSsoUser && (
+            {/* {!isSsoUser && (
               <>
                 <FormTextInput
                   name="first_name"
@@ -101,7 +100,7 @@ const UserProfileForm = ({
                   mb="md"
                 />
               </>
-            )}
+            )} */}
             <div data-testid="user-locale-select">
               <FormSelect
                 name="locale"
