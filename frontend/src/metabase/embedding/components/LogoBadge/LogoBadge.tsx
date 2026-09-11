@@ -24,6 +24,21 @@ export const LogoBadge = ({ dark }: { dark: boolean }) => {
       <span>{t`Powered by`}</span>
       {/* eslint-disable-next-line metabase/no-literal-metabase-strings -- This embedding badge which we don't want to show the whitelabeled name */}
       <MetabaseLogoWithText height={32} aria-label="Metabase" />
+      <ExternalLink
+        href="https://dadosfera.ai"
+        target="_blank"
+        className="h4 flex text-bold align-center no-decoration"
+      >
+        <span className="text-small">
+          <span className="ml2 md-ml2 text-medium">
+            / Accelerated By{" "}
+            <span className={dark ? "text-white" : "text-brand"}>
+              Dadosfera
+            </span>
+          </span>
+        </span>
+      </ExternalLink>
+
     </ExternalLink>
   );
 };

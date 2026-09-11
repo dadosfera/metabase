@@ -209,7 +209,7 @@ export const AppSwitcher = ({ className }: { className?: string }) => {
           {/* Logout and Help */}
           <Divider w="100%" my="sm" />
           <Box px="md">
-            <Menu.Sub position="left-start" offset={20} closeDelay={350}>
+        {/* <Menu.Sub position="left-start" offset={20} closeDelay={350}>
               <Menu.Sub.Target>
                 <Menu.Sub.Item>{t`Help`}</Menu.Sub.Item>
               </Menu.Sub.Target>
@@ -221,7 +221,7 @@ export const AppSwitcher = ({ className }: { className?: string }) => {
                 )}
                 {showOnboardingLink && (
                   <Menu.Item component={ForwardRefLink} to="/getting-started">
-                    {/* eslint-disable-next-line metabase/no-literal-metabase-strings -- This string only shows for non-whitelabeled instances */}
+                    eslint-disable-next-line metabase/no-literal-metabase-strings -- This string only shows for non-whitelabeled instances 
                     {t`How to use Metabase`}
                   </Menu.Item>
                 )}
@@ -240,7 +240,7 @@ export const AppSwitcher = ({ className }: { className?: string }) => {
                   {t`About ${applicationName}`}
                 </Menu.Item>
               </Menu.Sub.Dropdown>
-            </Menu.Sub>
+            </Menu.Sub> */}
             <Menu.Item
               onClick={() => dispatch(logout())}
             >{t`Sign out`}</Menu.Item>
@@ -255,3 +255,5 @@ export const AppSwitcher = ({ className }: { className?: string }) => {
     </>
   );
 };
+
+

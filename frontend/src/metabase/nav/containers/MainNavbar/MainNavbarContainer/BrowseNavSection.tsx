@@ -49,22 +49,22 @@ export const BrowseNavSection = ({
       iconPosition="right"
       iconSize={8}
       onToggle={setExpandBrowse}
-      rightAction={
-        showAddDataButton ? (
-          <Tooltip label={t`Add data`}>
-            <ActionIcon
-              aria-label={t`Add data`}
-              color="text-secondary"
-              onClick={() => {
-                trackAddDataModalOpened("left-nav");
-                onAddDataModalOpen();
-              }}
-            >
-              <Icon name="add" />
-            </ActionIcon>
-          </Tooltip>
-        ) : undefined
-      }
+      // rightAction={
+      //   showAddDataButton ? (
+      //     <Tooltip label={t`Add data`}>
+      //       <ActionIcon
+      //         aria-label={t`Add data`}
+      //         color="text-secondary"
+      //         onClick={() => {
+      //           trackAddDataModalOpened("left-nav");
+      //           onAddDataModalOpen();
+      //         }}
+      //       >
+      //         <Icon name="add" />
+      //       </ActionIcon>
+      //     </Tooltip>
+      //   ) : undefined
+      // }
       role="section"
       aria-label={t`Data`}
     >

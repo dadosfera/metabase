@@ -20,6 +20,7 @@ import {
 import { isEmbeddingSdk } from "metabase/embedding-sdk/config";
 import type { DownloadsState, State } from "metabase/redux/store";
 import { createAsyncThunk } from "metabase/redux/utils";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { getTokenFeature } from "metabase/setup/selectors";
 import * as Urls from "metabase/urls";
 import { openSaveDialog } from "metabase/utils/dom";
@@ -231,6 +232,15 @@ export const downloadQueryResults = createAsyncThunk(
       resourceType,
       accessedVia,
       exportType: opts.type,
+    });
+
+    mixpanel.trackEvent(mixpanel.events.download, undefined, {
+      type: opts?.type || "",
+      token: opts?.token || "",
+      dashboardId: opts?.dashboardId || "",
+      dashcardId: opts?.dashcardId || "",
+      uuid: opts?.uuid || "",
+      params: opts?.params || "",
     });
 
     if (opts.type === exportFormatPng) {

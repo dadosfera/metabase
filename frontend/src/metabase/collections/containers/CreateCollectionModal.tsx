@@ -6,6 +6,7 @@ import { useCreateCollectionMutation } from "metabase/api";
 import { useEscapeToCloseModal } from "metabase/common/hooks/use-escape-to-close-modal";
 import { PLUGIN_LIBRARY } from "metabase/plugins";
 import { useDispatch } from "metabase/redux";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { Modal } from "metabase/ui";
 import * as Urls from "metabase/urls";
 import type { Collection } from "metabase-types/api";
@@ -35,6 +36,7 @@ function CreateCollectionModal({
 
   const handleCreate = useCallback(
     async (values: CreateCollectionProperties) => {
+      mixpanel.trackEvent(mixpanel.events.create_collection);
       const collection = await createCollection(values).unwrap();
 
       if (typeof onCreate === "function") {

@@ -41,7 +41,7 @@ export function UpdatesSettingsPage() {
         )}
         <NewVersionInfo />
       </SettingsSection>
-      <UpsellHostingBanner location="settings-updates-migrate_to_cloud" />
+      {/* <UpsellHostingBanner location="settings-updates-migrate_to_cloud" /> */}
     </SettingsPageWrapper>
   );
 }

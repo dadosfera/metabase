@@ -3,6 +3,7 @@ import { type ReactNode, useRef, useState } from "react";
 import { useMount } from "react-use";
 import _ from "underscore";
 
+import ExternalLink from "metabase/common/components/ExternalLink";
 import { TitleAndDescription } from "metabase/common/components/TitleAndDescription";
 import CS from "metabase/css/core/index.css";
 import TransitionS from "metabase/css/core/transitions.module.css";

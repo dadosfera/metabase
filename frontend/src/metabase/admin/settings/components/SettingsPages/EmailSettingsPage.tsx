@@ -77,9 +77,9 @@ export function EmailSettingsPage() {
             <SendTestEmailWidget />
           </SettingsSection>
         )}
-        <Center>
+        {/* <Center>
           <UpsellHostingBanner location="settings-email-migrate_to_cloud" />
-        </Center>
+        </Center> */}
       </SettingsPageWrapper>
     </>
   );

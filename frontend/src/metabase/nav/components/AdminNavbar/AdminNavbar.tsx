@@ -1,5 +1,5 @@
 import { useClickOutside } from "@mantine/hooks";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { push } from "react-router-redux";
 import { t } from "ttag";
 
@@ -7,19 +7,22 @@ import { Link } from "metabase/common/components/Link";
 import { LogoIcon } from "metabase/common/components/LogoIcon";
 import { useRegisterShortcut } from "metabase/palette/hooks/useRegisterShortcut";
 import { PLUGIN_SECURITY_CENTER } from "metabase/plugins";
-import { useDispatch, useSelector } from "metabase/redux";
+import { useDispatch } from "metabase/redux";
 import type { AdminPath } from "metabase/redux/store";
-import { getIsPaidPlan } from "metabase/selectors/settings";
-import { getUserIsAdmin } from "metabase/selectors/user";
 import { Box, Button, Flex, Group, Icon } from "metabase/ui";
 
 import { ADMIN_NAVBAR_HEIGHT } from "../../constants";
 import { AppSwitcher } from "../AppSwitcher";
-import StoreLink from "../StoreLink";
 
 import { AdminNavItem } from "./AdminNavItem";
 import { AdminNavLink } from "./AdminNavLink";
 import S from "./AdminNavbar.module.css";
+
+// [Dadosfera] Seções de admin gerenciadas pela plataforma Dadosfera ficam ocultas.
+const HIDDEN_ADMIN_PATH_KEYS = ["troubleshooting", "permissions", "tools"];
+
+const getVisibleAdminPaths = (adminPaths: AdminPath[]) =>
+  adminPaths.filter((path) => !HIDDEN_ADMIN_PATH_KEYS.includes(path.key));
 
 interface AdminNavbarProps {
   path: string;
@@ -28,10 +31,12 @@ interface AdminNavbarProps {
 
 export const AdminNavbar = ({
   path: currentPath,
-  adminPaths,
+  adminPaths: allAdminPaths,
 }: AdminNavbarProps) => {
-  const isPaidPlan = useSelector(getIsPaidPlan);
-  const isAdmin = useSelector(getUserIsAdmin);
+  const adminPaths = useMemo(
+    () => getVisibleAdminPaths(allAdminPaths),
+    [allAdminPaths],
+  );
   const dispatch = useDispatch();
 
   useRegisterShortcut(
@@ -87,6 +92,13 @@ export const AdminNavbar = ({
           ml="1rem"
           // eslint-disable-next-line metabase/no-literal-metabase-strings -- Metabase settings
         >{t`Metabase Admin`}</Box>
+        <Box
+          visibleFrom="lg"
+          ml="1rem"
+          // eslint-disable-next-line i18next/no-literal-string -- Dadosfera branding
+        >
+          Accelerated By Dadosfera
+        </Box>
       </Flex>
 
       <Flex visibleFrom="md" align="center" miw={0} flex="1 1 auto" ps="2rem">
@@ -112,8 +124,6 @@ export const AdminNavbar = ({
             />
           )}
         </Flex>
-
-        {!isPaidPlan && isAdmin && <StoreLink />}
       </Flex>
       <Group gap="0.5rem" ms="auto">
         <MobileNavbar adminPaths={adminPaths} currentPath={currentPath} />
