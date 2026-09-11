@@ -96,7 +96,9 @@ export const AdminNavbar = ({
           visibleFrom="lg"
           ml="1rem"
           // eslint-disable-next-line i18next/no-literal-string -- Dadosfera branding
-        >Accelerated By Dadosfera</Box>
+        >
+          Accelerated By Dadosfera
+        </Box>
       </Flex>
 
       <Flex visibleFrom="md" align="center" miw={0} flex="1 1 auto" ps="2rem">
@@ -122,7 +124,6 @@ export const AdminNavbar = ({
             />
           )}
         </Flex>
-
       </Flex>
       <Group gap="0.5rem" ms="auto">
         <MobileNavbar adminPaths={adminPaths} currentPath={currentPath} />

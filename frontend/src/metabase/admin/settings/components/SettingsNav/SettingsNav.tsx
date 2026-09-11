@@ -38,25 +38,37 @@ export function SettingsNav() {
       <SettingsNavItem path="general" label={t`General`} icon="gear" />
       {SHOW_DADOSFERA_HIDDEN_SETTINGS && (
         <>
-        <SettingsNavItem
-          label={t`Authentication`}
-          icon="lock"
-          folderPattern="auth"
-        >
-          <SettingsNavItem path="authentication" label={t`Overview`} />
-          {hasScim && (
+          <SettingsNavItem
+            label={t`Authentication`}
+            icon="lock"
+            folderPattern="auth"
+          >
+            <SettingsNavItem path="authentication" label={t`Overview`} />
+            {hasScim && (
+              <SettingsNavItem
+                path="authentication/user-provisioning"
+                label={t`User provisioning`}
+              />
+            )}
             <SettingsNavItem
-              path="authentication/user-provisioning"
-              label={t`User provisioning`}
+              path="authentication/api-keys"
+              label={t`API keys`}
             />
-          )}
-          <SettingsNavItem path="authentication/api-keys" label={t`API keys`} />
-          <SettingsNavItem path="authentication/google" label={t`Google auth`} />
-          <SettingsNavItem path="authentication/ldap" label="LDAP" />
-          {hasSaml && <SettingsNavItem path="authentication/saml" label="SAML" />}
-          {hasJwt && <SettingsNavItem path="authentication/jwt" label="JWT" />}
-          {hasOidc && <SettingsNavItem path="authentication/oidc" label="OIDC" />}
-        </SettingsNavItem>
+            <SettingsNavItem
+              path="authentication/google"
+              label={t`Google auth`}
+            />
+            <SettingsNavItem path="authentication/ldap" label="LDAP" />
+            {hasSaml && (
+              <SettingsNavItem path="authentication/saml" label="SAML" />
+            )}
+            {hasJwt && (
+              <SettingsNavItem path="authentication/jwt" label="JWT" />
+            )}
+            {hasOidc && (
+              <SettingsNavItem path="authentication/oidc" label="OIDC" />
+            )}
+          </SettingsNavItem>
         </>
       )}
       {PLUGIN_REMOTE_SYNC.isEnabled ? (
@@ -89,31 +101,31 @@ export function SettingsNav() {
       <SettingsNavItem path="maps" label={t`Maps`} icon="pinmap" />
       {SHOW_DADOSFERA_HIDDEN_SETTINGS && (
         <>
-        <SettingsNavItem
-          path={!hasWhitelabel ? "whitelabel" : undefined}
-          folderPattern="whitelabel"
-          label={
-            <Flex gap="sm" align="center">
-              <span>{t`Appearance`}</span>
-              {!hasWhitelabel && <UpsellGem />}
-            </Flex>
-          }
-          icon="palette"
-        >
-          {hasWhitelabel && [
-            // using an array so that child path detection can access them as direct children
-            <SettingsNavItem
-              key="branding"
-              path="whitelabel/branding"
-              label={t`Branding`}
-            />,
-            <SettingsNavItem
-              key="conceal"
-              path="whitelabel/conceal-metabase"
-              label={t`Conceal Metabase`}
-            />,
-          ]}
-        </SettingsNavItem>
+          <SettingsNavItem
+            path={!hasWhitelabel ? "whitelabel" : undefined}
+            folderPattern="whitelabel"
+            label={
+              <Flex gap="sm" align="center">
+                <span>{t`Appearance`}</span>
+                {!hasWhitelabel && <UpsellGem />}
+              </Flex>
+            }
+            icon="palette"
+          >
+            {hasWhitelabel && [
+              // using an array so that child path detection can access them as direct children
+              <SettingsNavItem
+                key="branding"
+                path="whitelabel/branding"
+                label={t`Branding`}
+              />,
+              <SettingsNavItem
+                key="conceal"
+                path="whitelabel/conceal-metabase"
+                label={t`Conceal Metabase`}
+              />,
+            ]}
+          </SettingsNavItem>
         </>
       )}
       <NavDivider />
@@ -134,17 +146,17 @@ export function SettingsNav() {
       <NavDivider />
       {SHOW_DADOSFERA_HIDDEN_SETTINGS && (
         <>
-        <SettingsNavItem path="license" label={t`License`} icon="store" />
-        <SettingsNavItem
-          path="cloud"
-          label={
-            <Flex gap="sm" align="center">
-              <span>{t`Cloud`}</span>
-              {!hasHosting && <UpsellGem />}
-            </Flex>
-          }
-          icon="cloud"
-        />
+          <SettingsNavItem path="license" label={t`License`} icon="store" />
+          <SettingsNavItem
+            path="cloud"
+            label={
+              <Flex gap="sm" align="center">
+                <span>{t`Cloud`}</span>
+                {!hasHosting && <UpsellGem />}
+              </Flex>
+            }
+            icon="cloud"
+          />
         </>
       )}
       {isSecurityCenterEnabled && (

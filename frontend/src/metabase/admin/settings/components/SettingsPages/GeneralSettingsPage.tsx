@@ -133,7 +133,6 @@ export function GeneralSettingsPage() {
           {hasAuditAppFeature && <CollectUserDataInput />}
         </SettingsSection>
       )}
-
     </SettingsPageWrapper>
   );
 }

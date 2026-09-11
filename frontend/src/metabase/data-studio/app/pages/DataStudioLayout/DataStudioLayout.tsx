@@ -208,14 +208,14 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
             />
           ) : (
             SHOW_DADOSFERA_HIDDEN_TABS && (
-            <DataStudioTab
-              label={t`Set up remote sync`}
-              icon="gear"
-              to={Urls.dataStudioGitSync()}
-              isSelected={currentTab === "git-sync"}
-              showLabel={isNavbarOpened}
-              isGated
-            />
+              <DataStudioTab
+                label={t`Set up remote sync`}
+                icon="gear"
+                to={Urls.dataStudioGitSync()}
+                isSelected={currentTab === "git-sync"}
+                showLabel={isNavbarOpened}
+                isGated
+              />
             )
           )}
           {canManageWorkspaces && (
