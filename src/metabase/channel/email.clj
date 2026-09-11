@@ -182,11 +182,12 @@
   Upon success, this returns the `:message` that was just sent. (TODO -- confirm this.) This function will catch and
   log any exception, returning a [[SMTPStatus]]."
   [& {:as msg-args}]
-  (try
-    (send-email-retrying! msg-args)
-    (catch Throwable e
-      (log/warn e "Failed to send email")
-      {::error e})))
+  (if false?
+    (try
+      (send-email-retrying! msg-args)
+      (catch Throwable e
+        (log/warn e "Failed to send email")
+        {::error e}))))
 
 (def ^:private SMTPSettings
   [:map {:closed true}

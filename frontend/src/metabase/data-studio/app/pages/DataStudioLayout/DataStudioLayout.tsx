@@ -85,6 +85,9 @@ type DataStudioNavProps = {
   onNavbarToggle: (isOpened: boolean) => void;
 };
 
+// [Dadosfera] Abas de recursos pagos/gerenciados pela Dadosfera ficam ocultas.
+const SHOW_DADOSFERA_HIDDEN_TABS = false;
+
 function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
   const { pathname } = useSelector(getLocation);
   const canAccessDataModel = useSelector(
@@ -121,20 +124,22 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
             isNavbarOpened={isNavbarOpened}
             onNavbarToggle={onNavbarToggle}
           />
-          <DataStudioTab
-            label={t`Library`}
-            icon="repository"
-            to={Urls.dataStudioLibrary()}
-            isSelected={currentTab === "library"}
-            showLabel={isNavbarOpened}
-            isGated={!hasLibraryFeature}
-            rightSection={
-              hasDirtyChanges &&
-              PLUGIN_REMOTE_SYNC.CollectionSyncStatusBadge ? (
-                <PLUGIN_REMOTE_SYNC.CollectionSyncStatusBadge />
-              ) : null
-            }
-          />
+          {SHOW_DADOSFERA_HIDDEN_TABS && (
+            <DataStudioTab
+              label={t`Library`}
+              icon="repository"
+              to={Urls.dataStudioLibrary()}
+              isSelected={currentTab === "library"}
+              showLabel={isNavbarOpened}
+              isGated={!hasLibraryFeature}
+              rightSection={
+                hasDirtyChanges &&
+                PLUGIN_REMOTE_SYNC.CollectionSyncStatusBadge ? (
+                  <PLUGIN_REMOTE_SYNC.CollectionSyncStatusBadge />
+                ) : null
+              }
+            />
+          )}
 
           {canAccessDataModel && (
             <DataStudioTab
@@ -153,14 +158,16 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
             showLabel={isNavbarOpened}
             isGated={!hasSchemaViewerFeature}
           />
-          <DataStudioTab
-            label={t`Dependency graph`}
-            icon="dependencies"
-            to={Urls.dependencyGraph()}
-            isSelected={currentTab === "dependencies"}
-            showLabel={isNavbarOpened}
-            isGated={!hasDependenciesFeature}
-          />
+          {SHOW_DADOSFERA_HIDDEN_TABS && (
+            <DataStudioTab
+              label={t`Dependency graph`}
+              icon="dependencies"
+              to={Urls.dependencyGraph()}
+              isSelected={currentTab === "dependencies"}
+              showLabel={isNavbarOpened}
+              isGated={!hasDependenciesFeature}
+            />
+          )}
           <DataStudioTab
             label={t`Dependency diagnostics`}
             icon="search_check"
@@ -200,6 +207,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
               onClick={() => setIsGitSettingsOpen(true)}
             />
           ) : (
+            SHOW_DADOSFERA_HIDDEN_TABS && (
             <DataStudioTab
               label={t`Set up remote sync`}
               icon="gear"
@@ -208,6 +216,7 @@ function DataStudioNav({ isNavbarOpened, onNavbarToggle }: DataStudioNavProps) {
               showLabel={isNavbarOpened}
               isGated
             />
+            )
           )}
           {canManageWorkspaces && (
             <DataStudioTab

@@ -5,7 +5,6 @@ import {
   SettingsSection,
 } from "metabase/admin/components/SettingsSection";
 import { CollectUserDataInput } from "metabase/admin/settings/components/widgets/UsageTracking/CollectUserDataInput";
-import { UpsellDevInstances } from "metabase/admin/upsells";
 import { useAdminSetting } from "metabase/api/utils";
 import { ExternalLink } from "metabase/common/components/ExternalLink";
 import { Link } from "metabase/common/components/Link";
@@ -135,7 +134,6 @@ export function GeneralSettingsPage() {
         </SettingsSection>
       )}
 
-      <UpsellDevInstances location="settings-general" />
     </SettingsPageWrapper>
   );
 }

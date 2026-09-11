@@ -28,6 +28,7 @@ import {
   getSampleDatabaseId,
 } from "metabase/querying/selectors";
 import { connect, useSelector } from "metabase/redux";
+import { mixpanel } from "metabase/plugins/mixpanel";
 import { closeNavbar } from "metabase/redux/app";
 import {
   closeQB,
@@ -480,6 +481,22 @@ function QueryBuilderInner(props: QueryBuilderInnerProps) {
   });
 
   useRegisterQueryBuilderMetabotContext();
+
+  // [Dadosfera] Rastreia a abertura de perguntas nativas e de modelos no mixpanel.
+  const isNativeQuestion =
+    card?.creationType === "native_question" &&
+    card.dataset_query.type === "native";
+  const isModelPath = location.pathname.includes("model");
+  useEffect(() => {
+    if (!isNativeQuestion) {
+      return;
+    }
+    mixpanel.trackEvent(
+      isModelPath
+        ? mixpanel.events.model_open
+        : mixpanel.events.question.native_open,
+    );
+  }, [card?.id, isNativeQuestion, isModelPath]);
 
   useEffect(() => {
     window.addEventListener("resize", forceUpdateDebounced);

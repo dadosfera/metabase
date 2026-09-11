@@ -7,7 +7,6 @@ import type { State } from "metabase/redux/store";
 import AccountApp from "./app/containers/AccountApp";
 import LoginHistoryApp from "./login-history/containers/LoginHistoryApp";
 import { getNotificationRoutes } from "./notifications/routes";
-import UserPasswordApp from "./password/containers/UserPasswordApp";
 import UserProfileApp from "./profile/containers/UserProfileApp";
 
 export const getAccountRoutes = (
@@ -19,7 +18,8 @@ export const getAccountRoutes = (
       <Route component={AccountApp}>
         <IndexRedirect to="profile" />
         <Route path="profile" component={UserProfileApp} />
-        <Route path="password" component={UserPasswordApp} />
+        {/* Dadosfera: password change is disabled */}
+        {/* <Route path="password" component={UserPasswordApp} /> */}
         <Route path="login-history" component={LoginHistoryApp} />
         {getNotificationRoutes()}
       </Route>

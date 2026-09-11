@@ -230,6 +230,8 @@
                                     config/is-dev? (conj frontend-address))
                                   (into ["*"] always-allowed-resource-hosts))
                   :connect-src  ["'self'"
+                                 ;; Mixpanel Api
+                                 "https://api-js.mixpanel.com"
                                  ;; Google Identity Services
                                  "https://accounts.google.com"
                                  ;; MailChimp. So people can sign up for the Metabase mailing list in the sign up process

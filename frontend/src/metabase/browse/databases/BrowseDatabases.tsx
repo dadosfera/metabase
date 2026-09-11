@@ -50,6 +50,11 @@ export const BrowseDatabases = () => {
     );
   }
 
+  const filteredDatabases = databases.filter(
+    (database) =>
+      database.name !== "Sample Database" && database.engine !== "h2",
+  );
+
   return (
     <Flex
       className={S.browseContainer}
@@ -62,9 +67,9 @@ export const BrowseDatabases = () => {
       <Flex className={S.browseMain} direction="column" wrap="nowrap" flex={1}>
         <Flex maw="64rem" mx="auto" w="100%" direction="column">
           <BrowseGrid data-testid="database-browser">
-            {databases &&
-              databases.length > 0 &&
-              databases.map((database) => (
+            {filteredDatabases &&
+              filteredDatabases.length > 0 &&
+              filteredDatabases.map((database) => (
                 <BrowseCard
                   to={Urls.browseDatabase(database)}
                   key={database.id}
@@ -73,7 +78,7 @@ export const BrowseDatabases = () => {
                   size="lg"
                 />
               ))}
-            {isAdmin && <AddDatabaseCard />}
+            {/* {isAdmin && <AddDatabaseCard />} */}
           </BrowseGrid>
         </Flex>
       </Flex>

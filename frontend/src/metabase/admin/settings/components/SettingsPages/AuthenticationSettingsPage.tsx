@@ -34,13 +34,13 @@ export function AuthenticationSettingsPage({
     <SettingsPageWrapper title={t`Authentication`}>
       <Flex justify={"space-between"} gap="lg">
         <Stack gap="lg">
-          <GoogleAuthCard />
-          <LdapAuthCard />
+          {/* <GoogleAuthCard />
+          <LdapAuthCard /> */}
           <ApiKeysAuthCard />
         </Stack>
-        <Box style={{ flexShrink: 0 }}>
+        {/* <Box style={{ flexShrink: 0 }}>
           <UpsellSSO location="authentication-sidebar" />
-        </Box>
+        </Box> */}
       </Flex>
     </SettingsPageWrapper>
   );

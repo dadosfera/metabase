@@ -27,6 +27,8 @@ interface DatabaseListProps {
   children?: React.ReactNode;
 }
 
+const SHOW_ADD_DATABASE = false;
+
 export const DatabaseList = ({
   children,
   databases,
@@ -44,13 +46,24 @@ export const DatabaseList = ({
     return databases.some((db) => db.is_sample);
   }, [databases]);
 
+  // [Dadosfera] O banco de exemplo (engine H2) não aparece para o cliente.
+  const filteredDatabases = useMemo(() => {
+    return (
+      databases?.filter(
+        (database) =>
+          database.name !== "Sample Database" && database.engine !== "h2",
+      ) || []
+    );
+  }, [databases]);
+
   return (
     <>
       <div className={CS.wrapper} data-testid="database-list">
         <section className={cx(AdminS.PageHeader, CS.px2, CS.clearfix)}>
           <Flex justify="space-between" align="center">
             <h2 className={CS.m0}>{t`Databases`}</h2>
-            {isAdmin && (
+            {/* [Dadosfera] Bancos são adicionados pela plataforma Dadosfera. */}
+            {SHOW_ADD_DATABASE && isAdmin && (
               <Button
                 variant="filled"
                 component={Link}
@@ -73,8 +86,8 @@ export const DatabaseList = ({
               </tr>
             </thead>
             <tbody>
-              {databases ? (
-                databases.map((database) => (
+              {filteredDatabases ? (
+                filteredDatabases.map((database) => (
                   <tr
                     key={database.id}
                     className={cx({
