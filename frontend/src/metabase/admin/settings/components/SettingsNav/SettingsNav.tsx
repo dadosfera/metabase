@@ -77,7 +77,7 @@ export function SettingsNav() {
       <SettingsNavItem path="email" label={t`Email`} icon="mail" />
       <SettingsNavItem path="slack" label={t`Slack`} icon="slack" />
       <SettingsNavItem path="webhooks" label={t`Webhooks`} icon="webhook" />
-      {!hasHosting && <UpdatesNavItem />}
+      {SHOW_DADOSFERA_HIDDEN_SETTINGS && !hasHosting && <UpdatesNavItem />}
       <NavDivider />
       <SettingsNavItem
         path="localization"
