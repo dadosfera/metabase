@@ -1,7 +1,6 @@
 import { match } from "ts-pattern";
 
 import { AIQuestionAnalysisSidebar } from "metabase/metabot/components/AIQuestionAnalysisSidebar";
-import { PLUGIN_AI_ENTITY_ANALYSIS } from "metabase/plugins";
 import { mixpanel } from "metabase/plugins/mixpanel";
 import { QuestionInfoSidebar } from "metabase/query_builder/components/view/sidebars/QuestionInfoSidebar";
 import { QuestionSettingsSidebar } from "metabase/query_builder/components/view/sidebars/QuestionSettingsSidebar";
