@@ -11,6 +11,9 @@ import { useSelector } from "metabase/redux";
 import { getLocation } from "metabase/selectors/routing";
 import { Divider, Flex, Stack } from "metabase/ui";
 
+// [Dadosfera] Temas de embedding são gerenciados pela plataforma Dadosfera.
+const SHOW_DADOSFERA_THEMES = false;
+
 export function EmbeddingNav() {
   const hasSimpleEmbedding = useHasTokenFeature("embedding_simple");
 
@@ -54,16 +57,18 @@ export function EmbeddingNav() {
           icon="shield_outline"
         />
 
-        <EmbeddingNavItem
-          path="/admin/embedding/themes"
-          label={
-            <Flex gap="sm" align="center">
-              <span>{t`Themes`}</span>
-              {!hasSimpleEmbedding && <UpsellGem />}
-            </Flex>
-          }
-          icon="palette"
-        />
+        {SHOW_DADOSFERA_THEMES && (
+          <EmbeddingNavItem
+            path="/admin/embedding/themes"
+            label={
+              <Flex gap="sm" align="center">
+                <span>{t`Themes`}</span>
+                {!hasSimpleEmbedding && <UpsellGem />}
+              </Flex>
+            }
+            icon="palette"
+          />
+        )}
       </Stack>
     </AdminNavWrapper>
   );

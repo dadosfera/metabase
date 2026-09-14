@@ -71,20 +71,21 @@ export function SettingsNav() {
           </SettingsNavItem>
         </>
       )}
-      {PLUGIN_REMOTE_SYNC.isEnabled ? (
-        <PLUGIN_REMOTE_SYNC.LibraryNav />
-      ) : !isPro ? (
-        <SettingsNavItem
-          path="remote-sync"
-          label={
-            <Flex gap="sm" align="center">
-              <span>{t`Remote sync`}</span>
-              <UpsellGem />
-            </Flex>
-          }
-          icon="sync"
-        />
-      ) : null}
+      {SHOW_DADOSFERA_HIDDEN_SETTINGS &&
+        (PLUGIN_REMOTE_SYNC.isEnabled ? (
+          <PLUGIN_REMOTE_SYNC.LibraryNav />
+        ) : !isPro ? (
+          <SettingsNavItem
+            path="remote-sync"
+            label={
+              <Flex gap="sm" align="center">
+                <span>{t`Remote sync`}</span>
+                <UpsellGem />
+              </Flex>
+            }
+            icon="sync"
+          />
+        ) : null)}
       <NavDivider />
       <SettingsNavItem path="email" label={t`Email`} icon="mail" />
       <SettingsNavItem path="slack" label={t`Slack`} icon="slack" />
@@ -97,7 +98,7 @@ export function SettingsNav() {
         icon="globe"
       />
       {/* do not allow users with "Settings access" permissions to access custom viz pages */}
-      {isAdmin && <CustomVisualizationsNav />}
+      {SHOW_DADOSFERA_HIDDEN_SETTINGS && isAdmin && <CustomVisualizationsNav />}
       <SettingsNavItem path="maps" label={t`Maps`} icon="pinmap" />
       {SHOW_DADOSFERA_HIDDEN_SETTINGS && (
         <>

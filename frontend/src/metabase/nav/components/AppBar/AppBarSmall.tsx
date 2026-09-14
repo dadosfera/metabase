@@ -21,6 +21,9 @@ import {
 } from "./AppBarSmall.styled";
 import { AppBarToggle } from "./AppBarToggle";
 
+// [Dadosfera] O Metabot não é oferecido aos clientes.
+const SHOW_DADOSFERA_METABOT = false;
+
 export interface AppBarSmallProps {
   detailView: DetailViewState | null;
   isNavBarOpen?: boolean;
@@ -91,7 +94,9 @@ const AppBarSmall = ({
                   </Flex>
                 ))}
             </AppBarSearchContainer>
-            {!isEmbeddingIframe && <MetabotAppBarButton />}
+            {SHOW_DADOSFERA_METABOT && !isEmbeddingIframe && (
+              <MetabotAppBarButton />
+            )}
             {isAppSwitcherVisible && <AppSwitcher />}
           </Flex>
           <AppBarLogoContainer isVisible={isLogoVisible && !isSearchActive}>

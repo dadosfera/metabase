@@ -123,7 +123,7 @@ export const DatabaseList = ({
               )}
             </tbody>
           </table>
-          {!hasSampleDatabase && isAdmin ? (
+          {SHOW_ADD_DATABASE && !hasSampleDatabase && isAdmin ? (
             <div className={CS.pt4}>
               <span
                 className={cx(CS.p2, CS.textItalic, {

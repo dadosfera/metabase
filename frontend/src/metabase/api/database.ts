@@ -71,6 +71,14 @@ export const databaseApi = Api.injectEndpoints({
         url: "/api/database",
         params,
       }),
+      // [Dadosfera] O banco de exemplo (Sample Database, engine H2) não tem dados do
+      // cliente e não pode ser removido no Metabase: some de todas as telas e seletores.
+      transformResponse: (response: ListDatabasesResponse) => {
+        const data = (response?.data ?? []).filter(
+          (database) => database.engine !== "h2" && !database.is_sample,
+        );
+        return { ...response, data, total: data.length };
+      },
       providesTags: (response) => provideDatabaseListTags(response?.data ?? []),
       onQueryStarted: (_, { queryFulfilled, dispatch }) =>
         handleQueryFulfilled(queryFulfilled, (data) =>

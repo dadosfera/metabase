@@ -20,6 +20,9 @@ import { AppBarInfoContainer, AppBarRoot } from "./AppBarLarge.styled";
 import { AppBarLogo } from "./AppBarLogo";
 import { AppBarToggle } from "./AppBarToggle";
 
+// [Dadosfera] O Metabot não é oferecido aos clientes.
+const SHOW_DADOSFERA_METABOT = false;
+
 export interface AppBarLargeProps {
   collectionId?: CollectionId;
   detailView: DetailViewState | null;
@@ -105,7 +108,7 @@ const AppBarLarge = ({
       {(isSearchVisible ||
         isNewButtonVisible ||
         isAppSwitcherVisible ||
-        isMetabotVisibleToUser) && (
+        (SHOW_DADOSFERA_METABOT && isMetabotVisibleToUser)) && (
         <Flex
           align="center"
           gap="sm"
@@ -116,7 +119,7 @@ const AppBarLarge = ({
           {isSearchVisible &&
             (isEmbeddingIframe ? <SearchBar /> : <SearchButton mr="md" />)}
           {isNewButtonVisible && <NewItemButton collectionId={collectionId} />}
-          {<MetabotAppBarButton />}
+          {SHOW_DADOSFERA_METABOT && <MetabotAppBarButton />}
           {isAppSwitcherVisible && (
             <Box c="text-primary" aria-label={t`Settings menu`}>
               <AppSwitcher />
