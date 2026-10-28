@@ -43,14 +43,13 @@ export function QuestionSummarizeWidget({
       color="summarize"
       variant={isShowingSummarySidebar ? "filled" : "default"}
       leftSection={<Icon name="sum" />}
-      onClick={async () => {
-        if (isShowingSummarySidebar) {
-          mixpanel.trackEvent(mixpanel.events.summarize.close);
-          onCloseSummary();
-        } else {
-          mixpanel.trackEvent(mixpanel.events.summarize.open);
-          onEditSummary();
-        }
+      onClick={() => {
+        mixpanel.trackEvent(
+          isShowingSummarySidebar
+            ? mixpanel.events.summarize.close
+            : mixpanel.events.summarize.open,
+        );
+        handleClick();
       }}
       data-active={isShowingSummarySidebar}
       className={ViewTitleHeaderS.SummarizeButton}
